@@ -1,6 +1,8 @@
 package Scheduler;
 
+import Scheduler.Controllers.LoginController;
 import Scheduler.Dao.Database;
+import Scheduler.Utils.LoginModal;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -11,17 +13,20 @@ import java.util.Map;
 
 public class Main extends Application {
 
+    private static Stage _mainStage;
+
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Database.connect();
-        Database.disconnect();
+        this._mainStage = primaryStage;
 
-        Parent root = FXMLLoader.load(getClass().getResource("Views/Sample.fxml"));
-        primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root, 300, 275));
-        primaryStage.show();
+        Stage loginScreen = new LoginModal().openScreen("Views/Login.fxml");
+        loginScreen.setTitle("Welcome! / ¡Bienvenido!");
+        loginScreen.centerOnScreen();
     }
 
+    public static Stage getMainStage() {
+        return _mainStage;
+    }
 
     public static void main(String[] args) {
         launch(args);
