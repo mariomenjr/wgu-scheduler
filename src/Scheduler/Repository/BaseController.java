@@ -3,17 +3,17 @@ package Scheduler.Repository;
 import Scheduler.Dao.Database;
 import javafx.fxml.FXML;
 
-public class BaseController {
+public abstract class BaseController {
 
-    protected String getControllerName() {
+    public String getControllerName() {
         return "Base";
     }
 
     @FXML
     public void initialize() throws Exception {
         System.out.println(this.getControllerName().concat(" initialized."));
-
-        Database.connect();
-        Database.disconnect();
+        this.applyLocale();
     }
+
+    protected void applyLocale() {}
 }
