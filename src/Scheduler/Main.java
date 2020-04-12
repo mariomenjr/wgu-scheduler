@@ -1,17 +1,10 @@
 package Scheduler;
 
-import Scheduler.Controllers.LoginController;
-import Scheduler.Dao.Database;
-import Scheduler.Dao.UserManager;
 import Scheduler.Utils.LoginModal;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.util.Locale;
-import java.util.Map;
 import java.util.ResourceBundle;
 
 public class Main extends Application {
@@ -41,10 +34,6 @@ public class Main extends Application {
         try {
             this._loadLocale();
             this._loadLogin();
-
-            UserManager um = new UserManager();
-            um.select("");
-
         } catch (Exception ex) {
             consoleStack(ex);
             System.exit(1);

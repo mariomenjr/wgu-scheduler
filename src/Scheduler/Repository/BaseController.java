@@ -3,10 +3,15 @@ package Scheduler.Repository;
 import Scheduler.Dao.Database;
 import javafx.fxml.FXML;
 
+import java.sql.ResultSet;
+
 public abstract class BaseController {
 
-    public String getControllerName() {
-        return "Base";
+    abstract protected void applyLocale();
+
+    protected String getControllerName() {
+        String[] split = this.getClass().getName().split("\\.");
+        return split[split.length - 1].replaceAll("Controller", "");
     }
 
     @FXML
@@ -14,6 +19,4 @@ public abstract class BaseController {
         System.out.println(this.getControllerName().concat(" initialized."));
         this.applyLocale();
     }
-
-    protected void applyLocale() {}
 }

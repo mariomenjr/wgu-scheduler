@@ -23,8 +23,8 @@ public abstract class BaseManager<T> {
         return pathType[pathType.length - 1].toLowerCase();
     }
 
-    public ObservableList<T> select(String where) throws SQLException, Exception {
-        if (!Database.isConnect) Database.connect();
+    protected ObservableList<T> _select(String where) throws SQLException, Exception {
+        if (!Database.isConnected) Database.connect();
 
         String table = this.getParameterizedTypeName();
         String query = "select * from " + table + (where.length() > 0 ? " where " + where.trim():"");
@@ -37,5 +37,13 @@ public abstract class BaseManager<T> {
             this.observableList.add(this.newInstanceOfEntity(this.resultSet));
 
         return this.observableList;
+    }
+
+    public ObservableList<T> select() throws SQLException, Exception {
+        return this._select("");
+    }
+
+    public ObservableList<T> select(String where) throws SQLException, Exception {
+        return this._select(where);
     }
 }
