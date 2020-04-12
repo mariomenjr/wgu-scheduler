@@ -2,6 +2,7 @@ package Scheduler;
 
 import Scheduler.Controllers.LoginController;
 import Scheduler.Dao.Database;
+import Scheduler.Dao.UserManager;
 import Scheduler.Utils.LoginModal;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -20,7 +21,7 @@ public class Main extends Application {
 
     private static void _loadLocale() throws Exception {
         try {
-            Main._localeBundle = ResourceBundle.getBundle("Scheduler/Locales/locale", Locale.GERMANY);
+            Main._localeBundle = ResourceBundle.getBundle("Scheduler/Locales/locale", Locale.getDefault());
             System.out.println(Main.t("cli_locale_loaded"));
         } catch (Exception ex) {
             throw new Exception( "[" + Locale.getDefault() + "] locale not supported");
@@ -40,6 +41,10 @@ public class Main extends Application {
         try {
             this._loadLocale();
             this._loadLogin();
+
+            UserManager um = new UserManager();
+            um.select("");
+
         } catch (Exception ex) {
             consoleStack(ex);
             System.exit(1);
