@@ -1,5 +1,6 @@
 package Scheduler.Controllers;
 
+import Scheduler.Controllers.Modals.HubModal;
 import Scheduler.Dao.Database;
 import Scheduler.Dao.UserManager;
 import Scheduler.Main;
@@ -10,11 +11,13 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.stage.Stage;
 
-import javax.xml.crypto.Data;
 import java.sql.SQLException;
 
-public class LoginController extends BaseController  {
+public class LoginController extends BaseController {
 
     @FXML
     public Label lbl_username;
@@ -51,23 +54,34 @@ public class LoginController extends BaseController  {
         }
     }
 
+    public void onEnterPressed(KeyEvent keyEvent) {
+        if (keyEvent.getCode() == KeyCode.ENTER) this.btn_login.fireEvent(new ActionEvent());
+    }
+
     public void onButtonClick(ActionEvent actionEvent) throws SQLException, ClassNotFoundException, Exception {
         Button eventSource = (Button)actionEvent.getSource();
         if (this.btn_login.equals(eventSource)) {
-
-            if (Database.isConnected) Database.connect();
 
             UserManager um = new UserManager();
             ObservableList<User> users = um.select();
 
             // Login or not
             if (users.filtered(user -> user.getUserName().equals(this.tf_username.getText()) && user.getPassword().equals(String.valueOf(this.tf_password.getText().hashCode()))).size() == 1)
-                System.out.println("Logged in!");
-            else
-                MessageBox.showWarning("Not Authorized", "Check your credentials!");
+            {
+                Main.log("Logged in!");
+
+                HubModal hubModal = new HubModal();
+                Stage hubWindow = hubModal.openScreen();
+                hubWindow.setWidth(800);
+                hubWindow.setHeight(500);
+                hubWindow.centerOnScreen();
+
+                this.getStage().hide();
+            } else
+                MessageBox.showWarning(Main.t("alert_logging_failed_header"), Main.t("alert_logging_failed_message"));
         } else {
             // if (this.btn_exit.equals(eventSource))
-            System.out.println("Goodbye!");
+            Main.log("Goodbye!");
             System.exit(0);
         }
     }

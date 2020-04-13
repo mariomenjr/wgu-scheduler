@@ -16,42 +16,43 @@ public abstract class BaseModal<C> {
     private int _screenHeight = 200;
     private Stage _screenInstance;
 
-    public Stage getScreenInstance() {
-        return this._screenInstance;
-    }
+    abstract protected String getViewPath();
 
-    protected String getPathPrefix() {
-        return "";
-    };
-
-    public Stage openScreen(String path) throws Exception {
+    public Stage openScreen() throws Exception {
         Stage primaryStage = Main.getMainStage();
 
-        URL urlResource = this.getClass().getResource(this.getPathPrefix().concat(path));
-        final Parent template = new FXMLLoader(urlResource).load();
+        URL urlResource = this.getClass().getResource(this.getViewPath());
+        FXMLLoader loader = new FXMLLoader(urlResource);
+        final Parent template = loader.load();
 
         // New window (Stage)
         this._screenInstance = new Stage();
-        this._screenInstance.setTitle(path);
         this._screenInstance.setScene(new Scene(template, this._screenWidth, this._screenHeight));
 
-        // Specifies the modality for new window.
         this._screenInstance.initModality(Modality.WINDOW_MODAL);
-
-        // Specifies the owner Window (parent) for new window
         this._screenInstance.initOwner(primaryStage);
-
-        // Set position of second window, related to primary window.
-        // this._screenInstance.setX(primaryStage.getX() + 200);
-        // this._screenInstance.setY(primaryStage.getY() + 100);
         this._screenInstance.setResizable(false);
-
         this._screenInstance.show();
 
+        this.setController(loader);
+
+        return this._screenInstance;
+    }
+
+    public Stage getStage() {
         return this._screenInstance;
     }
 
     public void setController(FXMLLoader loader) {
         this._controller = loader.getController();
+        try {
+            ((BaseController)this._controller).setStage(this.getStage());
+        } catch (Exception ex) {
+            Main.consoleStack(ex);
+        }
     };
+
+    public C getController() {
+        return this._controller;
+    }
 }

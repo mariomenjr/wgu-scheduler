@@ -1,6 +1,6 @@
 package Scheduler;
 
-import Scheduler.Utils.LoginModal;
+import Scheduler.Controllers.Modals.LoginModal;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -21,8 +21,9 @@ public class Main extends Application {
         }
     }
 
-    private static void _loadLogin() throws Exception {
-        Stage loginScreen = new LoginModal().openScreen("Views/Login.fxml");
+    private static void _renderLogin() throws Exception {
+        Stage loginScreen = new LoginModal().openScreen();
+
         loginScreen.setTitle(Main.t("ui_login_window_title"));
         loginScreen.centerOnScreen();
     }
@@ -33,7 +34,7 @@ public class Main extends Application {
 
         try {
             this._loadLocale();
-            this._loadLogin();
+            this._renderLogin();
         } catch (Exception ex) {
             consoleStack(ex);
             System.exit(1);
@@ -48,11 +49,15 @@ public class Main extends Application {
         }
     }
 
+    public static void log(String message) {
+        System.out.println(message);
+    }
+
     public static void consoleStack(Exception ex) {
         StackTraceElement[] stackTrace = ex.getStackTrace();
         StackTraceElement trace = stackTrace.length > 1 ? stackTrace[1]:stackTrace[0];
 
-        System.out.println("\tLine " + trace.getLineNumber() + " @ " + trace.getFileName() + ": " + ex.getMessage());
+        log("\tLine " + trace.getLineNumber() + " @ " + trace.getFileName() + ": " + ex.getMessage());
     }
 
     public static Stage getMainStage() {

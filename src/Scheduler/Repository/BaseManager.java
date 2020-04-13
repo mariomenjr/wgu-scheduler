@@ -36,6 +36,7 @@ public abstract class BaseManager<T> {
         while(this.resultSet.next())
             this.observableList.add(this.newInstanceOfEntity(this.resultSet));
 
+        Database.disconnect();
         return this.observableList;
     }
 
