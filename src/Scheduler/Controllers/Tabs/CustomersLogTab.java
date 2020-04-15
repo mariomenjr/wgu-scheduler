@@ -5,6 +5,6 @@ import Scheduler.Repository.BaseComponent;
 
 public class CustomersLogTab extends BaseComponent<CustomersLogController> {
     protected String getViewPath() {
-        return "../../Views/AppointmentsLog.fxml";
+        return "../../Views/CustomersLog.fxml";
     };
 }

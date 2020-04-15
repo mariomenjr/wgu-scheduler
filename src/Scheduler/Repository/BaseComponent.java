@@ -12,7 +12,7 @@ public abstract class BaseComponent<C> {
 
     abstract protected String getViewPath();
 
-    public Scene renderComponentIn(Tab pane) throws IOException {
+    public Scene renderAt(Tab pane) throws IOException {
         URL urlResource = this.getClass().getResource(this.getViewPath());
         FXMLLoader loader = new FXMLLoader(urlResource);
         final Parent template = loader.load();
@@ -22,4 +22,8 @@ public abstract class BaseComponent<C> {
 
         return component;
     }
+
+    public void refresh() {
+        System.out.println("Refresh " + this.getClass().getName());
+    };
 }

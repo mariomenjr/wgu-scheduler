@@ -28,16 +28,12 @@ public class LoginController extends BaseController {
     @FXML
     public PasswordField tf_password;
     @FXML
-    public Label lbl_location;
-    @FXML
-    public ComboBox dd_location;
-    @FXML
     public Button btn_login;
     @FXML
     public Button btn_exit;
 
     @Override
-    public void initialize() throws Exception {
+    public void initialize() {
         super.initialize();
     }
 
@@ -46,7 +42,6 @@ public class LoginController extends BaseController {
         try {
             this.lbl_username.setText(Main.t("ui_login_lbl_username"));
             this.lbl_password.setText(Main.t("ui_login_lbl_password"));
-            this.lbl_location.setText(Main.t("ui_login_lbl_location"));
             this.btn_login.setText(Main.t("ui_login_btn_login"));
             this.btn_exit.setText(Main.t("ui_login_btn_exit"));
         } catch (Exception ex) {
@@ -62,11 +57,11 @@ public class LoginController extends BaseController {
         Button eventSource = (Button)actionEvent.getSource();
         if (this.btn_login.equals(eventSource)) {
 
-            UserManager um = new UserManager();
-            ObservableList<User> users = um.select();
+            String where = "userName = '" + this.tf_username.getText() + "' AND password = '" + String.valueOf(this.tf_password.getText().hashCode()) + "'";
+            ObservableList<User> users = new UserManager().select(where);
 
             // Login or not
-            if (users.filtered(user -> user.getUserName().equals(this.tf_username.getText()) && user.getPassword().equals(String.valueOf(this.tf_password.getText().hashCode()))).size() == 1)
+            if (users.size() == 1)
             {
                 Main.log("Logged in!");
 

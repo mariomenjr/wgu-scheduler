@@ -19,7 +19,7 @@ public abstract class BaseController {
     }
 
     @FXML
-    public void initialize() throws Exception {
+    public void initialize() {
         Main.log(this.getControllerName().concat(" initialized."));
         this.applyLocale();
     }
