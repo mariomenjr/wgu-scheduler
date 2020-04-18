@@ -8,8 +8,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 
-import java.io.IOException;
-
 public class HubController extends BaseController {
 
     @FXML
@@ -28,8 +26,6 @@ public class HubController extends BaseController {
     @Override
     public void initialize() {
         super.initialize();
-
-
         try {
             // Edge case: first tab needs to be inserted manually
             set_appointmentsLogTab(new AppointmentsLogTab());

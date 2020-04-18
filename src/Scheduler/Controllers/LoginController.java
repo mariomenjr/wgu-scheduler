@@ -1,7 +1,6 @@
 package Scheduler.Controllers;
 
 import Scheduler.Controllers.Modals.HubModal;
-import Scheduler.Dao.Database;
 import Scheduler.Dao.UserManager;
 import Scheduler.Main;
 import Scheduler.Models.User;

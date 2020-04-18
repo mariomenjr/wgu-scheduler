@@ -1,7 +1,6 @@
 package Scheduler.Dao;
 
 import Scheduler.Models.Customer;
-import Scheduler.Models.User;
 import Scheduler.Repository.BaseManager;
 
 import java.sql.ResultSet;

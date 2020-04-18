@@ -5,7 +5,5 @@ import Scheduler.Repository.BaseModal;
 
 public class LoginModal extends BaseModal<LoginController> {
 
-    protected String getViewPath() {
-        return "../../Views/Login.fxml";
-    };
+    public String getViewPath() { return "../../Views/Login.fxml"; };
 }

@@ -1,11 +1,9 @@
 package Scheduler.Repository;
 
-import Scheduler.Dao.Database;
 import Scheduler.Main;
 import javafx.fxml.FXML;
 import javafx.stage.Stage;
 
-import java.sql.ResultSet;
 
 public abstract class BaseController {
 

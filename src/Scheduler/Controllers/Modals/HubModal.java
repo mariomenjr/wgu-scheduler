@@ -5,7 +5,7 @@ import Scheduler.Repository.BaseModal;
 
 public class HubModal extends BaseModal<HubController> {
 
-    protected String getViewPath() {
+    public String getViewPath() {
         return "../../Views/Hub.fxml";
     };
 }

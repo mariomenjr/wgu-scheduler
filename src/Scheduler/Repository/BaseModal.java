@@ -9,14 +9,13 @@ import javafx.stage.Stage;
 
 import java.net.URL;
 
-public abstract class BaseModal<C> {
+public abstract class BaseModal<C> implements IComponent<C> {
 
+    private Stage _modal;
     private C _controller;
+
     private int _screenWidth = 400;
     private int _screenHeight = 200;
-    private Stage _screenInstance;
-
-    abstract protected String getViewPath();
 
     public Stage openScreen() throws Exception {
         Stage primaryStage = Main.getMainStage();
@@ -26,23 +25,27 @@ public abstract class BaseModal<C> {
         final Parent template = loader.load();
 
         // New window (Stage)
-        this._screenInstance = new Stage();
-        this._screenInstance.setScene(new Scene(template, this._screenWidth, this._screenHeight));
+        this._modal = new Stage();
+        this._modal.setScene(new Scene(template, this._screenWidth, this._screenHeight));
 
-        this._screenInstance.initModality(Modality.WINDOW_MODAL);
-        this._screenInstance.initOwner(primaryStage);
-        this._screenInstance.setResizable(false);
-        this._screenInstance.show();
+        this._modal.initModality(Modality.WINDOW_MODAL);
+        this._modal.initOwner(primaryStage);
+        this._modal.setResizable(false);
+        this._modal.show();
 
         this.setController(loader);
 
-        return this._screenInstance;
+        return this._modal;
     }
 
     public Stage getStage() {
-        return this._screenInstance;
+        return this._modal;
     }
 
+    @Override
+    abstract public String getViewPath();
+
+    @Override
     public void setController(FXMLLoader loader) {
         this._controller = loader.getController();
         try {
@@ -52,6 +55,7 @@ public abstract class BaseModal<C> {
         }
     };
 
+    @Override
     public C getController() {
         return this._controller;
     }

@@ -1,10 +1,15 @@
 package Scheduler.Controllers.Tabs;
 
 import Scheduler.Controllers.AppointmentsLogController;
-import Scheduler.Repository.BaseComponent;
+import Scheduler.Repository.BaseTab;
 
-public class AppointmentsLogTab extends BaseComponent<AppointmentsLogController> {
-    protected String getViewPath() {
+public class AppointmentsLogTab extends BaseTab<AppointmentsLogController> {
+    public String getViewPath() {
         return "../../Views/AppointmentsLog.fxml";
-    };
+    }
+
+    @Override
+    public void refresh() {
+
+    }
 }

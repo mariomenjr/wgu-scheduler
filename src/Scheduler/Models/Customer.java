@@ -1,26 +1,33 @@
 package Scheduler.Models;
 
+import Scheduler.Utils.DateTime;
+import javafx.beans.property.SimpleStringProperty;
+
 import java.util.Calendar;
 
 public class Customer {
     private int customerId;
-    private String customerName;
+    private final SimpleStringProperty customerName = new SimpleStringProperty(this, "customerName");
     private int addressId;
     private boolean active;
-    private Calendar createDate;
+    private DateTime createDate;
     private String createdBy;
-    private Calendar lastUpdate;
+    private DateTime lastUpdate;
     private String lastUpdateBy;
 
     public Customer(int customerId, String customerName, int addressId, boolean active, Calendar createDate, String createdBy, Calendar lastUpdate, String lastUpdateBy) {
         this.customerId = customerId;
-        this.customerName = customerName;
+        this.customerName.set(customerName);
         this.addressId = addressId;
         this.active = active;
-        this.createDate = createDate;
+        this.createDate = new DateTime();
         this.createdBy = createdBy;
-        this.lastUpdate = lastUpdate;
+        this.lastUpdate = new DateTime();
         this.lastUpdateBy = lastUpdateBy;
+
+        // Casting-ish the Calendar() types to DateTime()
+        this.createDate.setTime(createDate.getTime());
+        this.createDate.setTime(lastUpdate.getTime());
     }
 
     public int getCustomerId() {
@@ -32,11 +39,11 @@ public class Customer {
     }
 
     public String getCustomerName() {
-        return customerName;
+        return customerName.get();
     }
 
     public void setCustomerName(String customerName) {
-        this.customerName = customerName;
+        this.customerName.set(customerName);
     }
 
     public int getAddressId() {
@@ -59,7 +66,7 @@ public class Customer {
         return createDate;
     }
 
-    public void setCreateDate(Calendar createDate) {
+    public void setCreateDate(DateTime createDate) {
         this.createDate = createDate;
     }
 
@@ -75,7 +82,7 @@ public class Customer {
         return lastUpdate;
     }
 
-    public void setLastUpdate(Calendar lastUpdate) {
+    public void setLastUpdate(DateTime lastUpdate) {
         this.lastUpdate = lastUpdate;
     }
 
