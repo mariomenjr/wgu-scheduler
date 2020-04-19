@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<GridPane maxHeight="600.0" maxWidth="400.0" minHeight="600.0" minWidth="400.0" prefHeight="600.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Scheduler.Controllers.AppointmentFormController">
+   <rowConstraints>
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+   </rowConstraints>
+   <columnConstraints>
+      <ColumnConstraints hgrow="ALWAYS" maxWidth="194.0" minWidth="10.0" prefWidth="103.0" />
+      <ColumnConstraints hgrow="ALWAYS" maxWidth="296.0" minWidth="10.0" prefWidth="269.0" />
+   </columnConstraints>
+   <children>
+      <Label fx:id="lb_customer" text="Customer:" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+         <GridPane.margin>
+            <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
+         </GridPane.margin>
+      </Label>
+      <Label fx:id="lb_user" text="User:" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+         <GridPane.margin>
+            <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
+         </GridPane.margin>
+      </Label>
+      <Label fx:id="lb_title" text="Title:" GridPane.halignment="RIGHT" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+         <GridPane.margin>
+            <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
+         </GridPane.margin>
+      </Label>
+      <Label fx:id="lb_description" text="Description:" GridPane.halignment="RIGHT" GridPane.rowIndex="4" GridPane.valignment="CENTER">
+         <GridPane.margin>
+            <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
+         </GridPane.margin>
+      </Label>
+      <Label fx:id="lb_location" text="Location:" GridPane.halignment="RIGHT" GridPane.rowIndex="5" GridPane.valignment="CENTER">
+         <GridPane.margin>
+            <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
+         </GridPane.margin>
+      </Label>
+      <Label fx:id="lb_contact" text="Contact:" GridPane.halignment="RIGHT" GridPane.rowIndex="6" GridPane.valignment="CENTER">
+         <GridPane.margin>
+            <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
+         </GridPane.margin>
+      </Label>
+      <Label fx:id="lb_type" text="Type:" GridPane.halignment="RIGHT" GridPane.rowIndex="7" GridPane.valignment="CENTER">
+         <GridPane.margin>
+            <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
+         </GridPane.margin>
+      </Label>
+      <Label fx:id="lb_url" text="Url:" GridPane.halignment="RIGHT" GridPane.rowIndex="8" GridPane.valignment="CENTER">
+         <GridPane.margin>
+            <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
+         </GridPane.margin>
+      </Label>
+      <Label fx:id="lb_start" text="Starts on:" GridPane.halignment="RIGHT" GridPane.rowIndex="9" GridPane.valignment="CENTER">
+         <GridPane.margin>
+            <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
+         </GridPane.margin>
+      </Label>
+      <Label fx:id="lb_end" text="Ends on:" GridPane.halignment="RIGHT" GridPane.rowIndex="10" GridPane.valignment="CENTER">
+         <GridPane.margin>
+            <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
+         </GridPane.margin>
+      </Label>
+      <TextField id="Title" fx:id="tf_title" onKeyReleased="#onTextFieldWrite" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+      <TextField id="Description" fx:id="tf_description" onKeyReleased="#onTextFieldWrite" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+      <TextField id="Location" fx:id="tf_location" onKeyReleased="#onTextFieldWrite" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+      <TextField id="Contact" fx:id="tf_contact" onKeyReleased="#onTextFieldWrite" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+      <TextField id="Type" fx:id="tf_type" onKeyReleased="#onTextFieldWrite" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+      <TextField id="Url" fx:id="tf_url" onKeyReleased="#onTextFieldWrite" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+      <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="7.0" GridPane.columnIndex="1" GridPane.rowIndex="9">
+         <children>
+            <DatePicker fx:id="dp_start" />
+            <ComboBox fx:id="tp_start" prefWidth="150.0" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="7.0" GridPane.columnIndex="1" GridPane.rowIndex="10">
+         <children>
+            <DatePicker fx:id="dp_end" />
+            <ComboBox fx:id="tp_end" prefWidth="150.0" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="7.0" GridPane.columnIndex="1" GridPane.rowIndex="11">
+         <children>
+            <Button fx:id="btn_save" mnemonicParsing="false" onAction="#onBtnSaveClick" text="Save" />
+            <Button fx:id="btn_cancel" mnemonicParsing="false" text="Cancel" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="7.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+         <children>
+            <Button fx:id="btn_choose_customer" onAction="#onBtnChooseCustomerClick" mnemonicParsing="false" text="Choose" />
+            <Label fx:id="lb_selected_customer" text="[Select a customer]" />
+         </children>
+         <padding>
+            <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
+         </padding>
+      </HBox>
+      <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="7.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+         <children>
+            <Button fx:id="btn_choose_user" onAction="#onBtnChooseUserClick" mnemonicParsing="false" text="Choose" />
+            <Label fx:id="lb_selected_user" text="[Select a user]" />
+         </children>
+         <padding>
+            <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
+         </padding>
+      </HBox>
+      <Label text="[Action] Appointment" GridPane.columnSpan="2">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+         <GridPane.margin>
+            <Insets bottom="14.0" left="14.0" right="14.0" top="14.0" />
+         </GridPane.margin>
+      </Label>
+   </children>
+   <padding>
+      <Insets bottom="7.0" left="7.0" right="21.0" top="7.0" />
+   </padding>
+</GridPane>

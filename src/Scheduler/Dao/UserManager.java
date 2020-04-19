@@ -5,9 +5,14 @@ import Scheduler.Repository.BaseManager;
 
 import java.sql.ResultSet;
 
-import static Scheduler.Utils.Parser.stringToCalendar;
+import static Scheduler.Utils.Parser.StringToCalendar;
 
 public class UserManager extends BaseManager<User> {
+
+    @Override
+    protected String instanceToInsertQuery(User instance) {
+        return null;
+    }
 
     @Override
     protected User newInstanceOfEntity(ResultSet resultSet) throws Exception {
@@ -16,9 +21,9 @@ public class UserManager extends BaseManager<User> {
             resultSet.getString("userName"),
             resultSet.getString("password"),
             resultSet.getInt("active") == 1,
-            stringToCalendar(resultSet.getString("createDate")),
+            StringToCalendar(resultSet.getString("createDate")),
             resultSet.getString("createdBy"),
-            stringToCalendar(resultSet.getString("lastUpdate")),
+            StringToCalendar(resultSet.getString("lastUpdate")),
             resultSet.getString("lastUpdateBy")
         );
     }

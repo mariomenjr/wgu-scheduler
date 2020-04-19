@@ -7,7 +7,7 @@ import java.util.Calendar;
 
 public class Customer {
     private int customerId;
-    private final SimpleStringProperty customerName = new SimpleStringProperty(this, "customerName");
+    private String customerName;
     private int addressId;
     private boolean active;
     private DateTime createDate;
@@ -17,7 +17,7 @@ public class Customer {
 
     public Customer(int customerId, String customerName, int addressId, boolean active, Calendar createDate, String createdBy, Calendar lastUpdate, String lastUpdateBy) {
         this.customerId = customerId;
-        this.customerName.set(customerName);
+        this.customerName = customerName;
         this.addressId = addressId;
         this.active = active;
         this.createDate = new DateTime();
@@ -39,12 +39,10 @@ public class Customer {
     }
 
     public String getCustomerName() {
-        return customerName.get();
+        return customerName;
     }
 
-    public void setCustomerName(String customerName) {
-        this.customerName.set(customerName);
-    }
+    public void setCustomerName(String customerName) { this.customerName = customerName; }
 
     public int getAddressId() {
         return addressId;

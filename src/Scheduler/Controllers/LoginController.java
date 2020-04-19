@@ -52,27 +52,30 @@ public class LoginController extends BaseController {
         if (keyEvent.getCode() == KeyCode.ENTER) this.btn_login.fireEvent(new ActionEvent());
     }
 
-    public void onButtonClick(ActionEvent actionEvent) throws SQLException, ClassNotFoundException, Exception {
+    public void onButtonClick(ActionEvent actionEvent) {
         Button eventSource = (Button)actionEvent.getSource();
         if (this.btn_login.equals(eventSource)) {
+            try {
+                String where = "userName = '" + this.tf_username.getText() + "' AND password = '" + String.valueOf(this.tf_password.getText().hashCode()) + "'";
+                ObservableList<User> users = new UserManager().select(where);
 
-            String where = "userName = '" + this.tf_username.getText() + "' AND password = '" + String.valueOf(this.tf_password.getText().hashCode()) + "'";
-            ObservableList<User> users = new UserManager().select(where);
+                // Login or not
+                if (users.size() == 1)
+                {
+                    Main.log("Logged in!");
 
-            // Login or not
-            if (users.size() == 1)
-            {
-                Main.log("Logged in!");
+                    HubModal hubModal = new HubModal();
+                    Stage hubWindow = hubModal.openScreen();
+                    hubWindow.setWidth(800);
+                    hubWindow.setHeight(500);
+                    hubWindow.centerOnScreen();
 
-                HubModal hubModal = new HubModal();
-                Stage hubWindow = hubModal.openScreen();
-                hubWindow.setWidth(800);
-                hubWindow.setHeight(500);
-                hubWindow.centerOnScreen();
-
-                this.getStage().hide();
-            } else
-                MessageBox.showWarning(Main.t("alert_logging_failed_header"), Main.t("alert_logging_failed_message"));
+                    this.getStage().hide();
+                } else
+                    MessageBox.showWarning(Main.t("alert_logging_failed_header"), Main.t("alert_logging_failed_message"));
+            } catch(Exception e) {
+                Main.consoleStack(e);
+            }
         } else {
             // if (this.btn_exit.equals(eventSource))
             Main.log("Goodbye!");

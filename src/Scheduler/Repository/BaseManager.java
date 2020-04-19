@@ -1,6 +1,7 @@
 package Scheduler.Repository;
 
 import Scheduler.Dao.Database;
+import Scheduler.Main;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import sun.reflect.generics.reflectiveObjects.ParameterizedTypeImpl;
@@ -8,6 +9,7 @@ import sun.reflect.generics.reflectiveObjects.ParameterizedTypeImpl;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
 
 public abstract class BaseManager<T> {
 
@@ -15,7 +17,8 @@ public abstract class BaseManager<T> {
     protected ResultSet resultSet;
     protected ObservableList<T> observableList;
 
-    abstract protected T newInstanceOfEntity(ResultSet resultSet) throws Exception;
+    protected abstract String instanceToInsertQuery(T instance) throws ParseException, Exception;
+    protected abstract T newInstanceOfEntity(ResultSet resultSet) throws Exception;
 
     protected String getParameterizedTypeName() {
         ParameterizedTypeImpl parameterizedType = (ParameterizedTypeImpl) this.getClass().getGenericSuperclass();
@@ -46,5 +49,17 @@ public abstract class BaseManager<T> {
 
     public ObservableList<T> select(String where) throws SQLException, Exception {
         return this._select(where);
+    }
+
+    public int insert(T instance) throws SQLException, Exception {
+        if (!Database.isConnected) Database.connect();
+
+        String query = this.instanceToInsertQuery(instance);
+        System.out.println("Query: ".concat(query));
+
+        this.statement = Database.conn.createStatement();
+        this.resultSet = null;
+
+        return this.statement.executeUpdate(query);
     }
 }

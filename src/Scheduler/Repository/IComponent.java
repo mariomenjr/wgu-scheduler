@@ -8,6 +8,5 @@ public interface IComponent<C> {
     C getController();
     void setController(FXMLLoader loader);
 
-    // Important ViewPath
     String getViewPath();
 }

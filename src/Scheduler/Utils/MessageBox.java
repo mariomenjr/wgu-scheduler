@@ -21,4 +21,8 @@ public class MessageBox {
     public static Alert showWarning(String header, String message) {
         return _show(header,message, Alert.AlertType.WARNING);
     }
+
+    public static Alert showError(String header, String message) {
+        return _show(header,message, Alert.AlertType.ERROR);
+    }
 }

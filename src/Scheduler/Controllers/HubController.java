@@ -7,6 +7,7 @@ import Scheduler.Repository.BaseController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TextField;
 
 public class HubController extends BaseController {
 
@@ -21,15 +22,23 @@ public class HubController extends BaseController {
     private AppointmentsLogTab _appointmentsLogTab;
 
     @Override
-    protected void applyLocale() {}
+    protected void applyLocale() {
+        try {
+            this.tab_appointments.setText(Main.t("ui_tab_appointment_title"));
+            this.tab_customers.setText(Main.t("ui_tab_customer_title"));
+        } catch (Exception e) {
+            Main.consoleStack(e);
+        }
+    }
 
     @Override
     public void initialize() {
         super.initialize();
         try {
             // Edge case: first tab needs to be inserted manually
-            set_appointmentsLogTab(new AppointmentsLogTab());
-            get_appointmentsLogTab().renderAt(tab_appointments);
+            setAppointmentsLogTab(new AppointmentsLogTab());
+            getAppointmentsLogTab().renderAt(tab_appointments);
+            getAppointmentsLogTab().refresh();
 
             this.tab_hub_pane.getSelectionModel().selectedItemProperty().addListener(
                     (ov, t, t1) -> {
@@ -37,17 +46,17 @@ public class HubController extends BaseController {
                             boolean isTabEmpty = t1.getContent() == null;
                             if (t1.equals(this.tab_appointments)) {
                                 if (isTabEmpty) {
-                                    this.set_appointmentsLogTab(new AppointmentsLogTab());
-                                    this.get_appointmentsLogTab().renderAt(this.tab_appointments);
+                                    this.setAppointmentsLogTab(new AppointmentsLogTab());
+                                    this.getAppointmentsLogTab().renderAt(this.tab_appointments);
                                 } else
-                                    this.get_appointmentsLogTab().refresh();
+                                    this.getAppointmentsLogTab().refresh();
                             }
                             else if (t1.equals(this.tab_customers)) {
                                 if (isTabEmpty) {
-                                    this.set_customersLogTab(new CustomersLogTab());
-                                    this.get_customersLogTab().renderAt(this.tab_customers);
+                                    this.setCustomersLogTab(new CustomersLogTab());
+                                    this.getCustomersLogTab().renderAt(this.tab_customers);
                                 } else
-                                    this.get_customersLogTab().refresh();
+                                    this.getCustomersLogTab().refresh();
                             }
                         } catch (Exception e) {
                             Main.consoleStack(e);
@@ -59,19 +68,19 @@ public class HubController extends BaseController {
         }
     }
 
-    public CustomersLogTab get_customersLogTab() {
-        return _customersLogTab;
+    public CustomersLogTab getCustomersLogTab() {
+        return this._customersLogTab;
     }
 
-    public void set_customersLogTab(CustomersLogTab _customersLogTab) {
+    public void setCustomersLogTab(CustomersLogTab _customersLogTab) {
         this._customersLogTab = _customersLogTab;
     }
 
-    public AppointmentsLogTab get_appointmentsLogTab() {
-        return _appointmentsLogTab;
+    public AppointmentsLogTab getAppointmentsLogTab() {
+        return this._appointmentsLogTab;
     }
 
-    public void set_appointmentsLogTab(AppointmentsLogTab _appointmentsLogTab) {
+    public void setAppointmentsLogTab(AppointmentsLogTab _appointmentsLogTab) {
         this._appointmentsLogTab = _appointmentsLogTab;
     }
 }

@@ -5,6 +5,6 @@ import java.util.GregorianCalendar;
 public class DateTime extends GregorianCalendar {
     @Override
     public String toString() {
-        return this.getTime().toString();
+        return this.getTime().toLocaleString();
     }
 }

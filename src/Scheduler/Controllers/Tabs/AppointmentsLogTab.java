@@ -9,7 +9,7 @@ public class AppointmentsLogTab extends BaseTab<AppointmentsLogController> {
     }
 
     @Override
-    public void refresh() {
-
+    public void refresh() throws Exception {
+        this.getController().fillData();
     }
 }

@@ -12,5 +12,4 @@ public class CustomersLogTab extends BaseTab<CustomersLogController> {
     public void refresh() throws Exception {
        this.getController().fillData();
     }
-
 }

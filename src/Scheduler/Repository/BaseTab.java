@@ -44,5 +44,5 @@ public abstract class BaseTab<C> implements IComponent<C> {
         } catch (Exception ex) {
             Main.consoleStack(ex);
         }
-    };
+    }
 }

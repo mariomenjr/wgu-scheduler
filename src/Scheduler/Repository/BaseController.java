@@ -2,6 +2,8 @@ package Scheduler.Repository;
 
 import Scheduler.Main;
 import javafx.fxml.FXML;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 
@@ -18,8 +20,12 @@ public abstract class BaseController {
 
     @FXML
     public void initialize() {
-        Main.log(this.getControllerName().concat(" initialized."));
-        this.applyLocale();
+        try {
+            Main.log(this.getControllerName().concat(" initialized."));
+            this.applyLocale();
+        } catch (Exception e) {
+            Main.consoleStack(e);
+        }
     }
 
     public void setStage(Stage stage) {
