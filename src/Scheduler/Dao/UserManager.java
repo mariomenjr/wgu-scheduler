@@ -4,6 +4,7 @@ import Scheduler.Models.User;
 import Scheduler.Repository.BaseManager;
 
 import java.sql.ResultSet;
+import java.text.ParseException;
 
 import static Scheduler.Utils.Parser.StringToCalendar;
 
@@ -11,6 +12,11 @@ public class UserManager extends BaseManager<User> {
 
     @Override
     protected String instanceToInsertQuery(User instance) {
+        return null;
+    }
+
+    @Override
+    protected String instanceToDeleteQuery(User instance) throws ParseException, Exception {
         return null;
     }
 

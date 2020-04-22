@@ -1,9 +1,11 @@
 package Scheduler.Dao;
 
+import Scheduler.Models.Appointment;
 import Scheduler.Models.Customer;
 import Scheduler.Repository.BaseManager;
 
 import java.sql.ResultSet;
+import java.text.ParseException;
 
 import static Scheduler.Utils.Parser.StringToCalendar;
 
@@ -11,6 +13,13 @@ public class CustomerManager extends BaseManager<Customer> {
     @Override
     protected String instanceToInsertQuery(Customer instance) {
         return null;
+    }
+
+    @Override
+    protected String instanceToDeleteQuery(Customer instance) throws ParseException, Exception {
+        return ""
+                .concat("DELETE FROM customer WHERE customerId = ")
+                .concat(Integer.toString(instance.getCustomerId()));
     }
 
     @Override

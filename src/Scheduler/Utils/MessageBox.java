@@ -1,6 +1,7 @@
 package Scheduler.Utils;
 
 import javafx.scene.control.Alert;
+import javafx.util.Callback;
 
 public class MessageBox {
 
@@ -20,6 +21,17 @@ public class MessageBox {
 
     public static Alert showWarning(String header, String message) {
         return _show(header,message, Alert.AlertType.WARNING);
+    }
+
+    public static Alert askConfirmation(String header, String message, Callback callback) {
+        Alert box = _show(header, message, Alert.AlertType.CONFIRMATION);
+        box.resultProperty().addListener(
+            (observableValue, buttonType, button) -> {
+                if (button.getButtonData().isCancelButton()) return;
+                callback.call(null);
+            }
+        );
+        return box;
     }
 
     public static Alert showError(String header, String message) {

@@ -18,6 +18,7 @@ public abstract class BaseManager<T> {
     protected ObservableList<T> observableList;
 
     protected abstract String instanceToInsertQuery(T instance) throws ParseException, Exception;
+    protected abstract String instanceToDeleteQuery(T instance) throws ParseException, Exception;
     protected abstract T newInstanceOfEntity(ResultSet resultSet) throws Exception;
 
     protected String getParameterizedTypeName() {
@@ -55,6 +56,18 @@ public abstract class BaseManager<T> {
         if (!Database.isConnected) Database.connect();
 
         String query = this.instanceToInsertQuery(instance);
+        System.out.println("Query: ".concat(query));
+
+        this.statement = Database.conn.createStatement();
+        this.resultSet = null;
+
+        return this.statement.executeUpdate(query);
+    }
+
+    public int delete(T instance) throws SQLException, Exception {
+        if (!Database.isConnected) Database.connect();
+
+        String query = this.instanceToDeleteQuery(instance);
         System.out.println("Query: ".concat(query));
 
         this.statement = Database.conn.createStatement();

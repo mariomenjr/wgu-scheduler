@@ -2,6 +2,7 @@ package Scheduler.Controllers;
 
 import Scheduler.Controllers.Modals.AppointmentFormModal;
 import Scheduler.Dao.AppointmentManager;
+import Scheduler.Dao.Database;
 import Scheduler.Main;
 import Scheduler.Models.Appointment;
 import Scheduler.Repository.BaseController;
@@ -105,8 +106,22 @@ public class AppointmentsLogController extends BaseController implements ILogCon
             int i = this.tv_appointments.getSelectionModel().getSelectedIndex();
             if (i < 0)
                 MessageBox.showWarning("Unable to remove", "No Row has been selected");
-            else
-                this.observableList.remove(i);
+            else {
+                Appointment ap = this.observableList.get(i);
+                MessageBox.askConfirmation(
+                    "Do you want to remove \"".concat(ap.getTitle()).concat("\"?"),
+                    "It's scheduled on ".concat(ap.getStart().getTime().toString()),
+                    o -> {
+                        try {
+                            new AppointmentManager().delete(ap);
+                            return this.observableList.remove(i);
+                        } catch (Exception e) {
+                            Main.consoleStack(e);
+                        }
+                        return null;
+                    }
+                );
+            }
         } catch(Exception e) {
             Main.consoleStack(e);
         }

@@ -38,10 +38,6 @@ public abstract class BaseModal<C> implements IComponent<C> {
         return this._modal;
     }
 
-    public Stage getStage() {
-        return this._modal;
-    }
-
     @Override
     abstract public String getViewPath();
 
@@ -49,7 +45,7 @@ public abstract class BaseModal<C> implements IComponent<C> {
     public void setController(FXMLLoader loader) {
         this._controller = loader.getController();
         try {
-            ((BaseController)this._controller).setStage(this.getStage());
+            ((BaseController)this._controller).setStage(this._modal);
         } catch (Exception ex) {
             Main.consoleStack(ex);
         }

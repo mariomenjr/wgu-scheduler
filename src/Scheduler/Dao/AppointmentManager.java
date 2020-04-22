@@ -44,6 +44,13 @@ public class AppointmentManager extends BaseManager<Appointment> {
     }
 
     @Override
+    protected String instanceToDeleteQuery(Appointment instance) throws ParseException, Exception {
+        return ""
+                .concat("DELETE FROM appointment WHERE appointmentId = ")
+                .concat(Integer.toString(instance.getAppointmentId()));
+    }
+
+    @Override
     protected Appointment newInstanceOfEntity(ResultSet resultSet) throws Exception {
         return new Appointment(
             resultSet.getInt("appointmentId"),

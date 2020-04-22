@@ -9,7 +9,10 @@ import Scheduler.Models.Appointment;
 import Scheduler.Models.Customer;
 import Scheduler.Models.User;
 import Scheduler.Repository.FormController;
+import Scheduler.Utils.DateTime;
 import Scheduler.Utils.MessageBox;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,6 +22,9 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 
 import java.lang.reflect.Method;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 public class AppointmentFormController extends FormController  {
@@ -80,11 +86,26 @@ public class AppointmentFormController extends FormController  {
     @FXML
     public ComboBox tp_end;
 
+    ObservableList<String> times = FXCollections.observableArrayList();
+
     @Override
     public void initialize() {
         super.initialize();
         this.appointment = new Appointment(0, 1, 1, "", "", "", "", "", "",
                 new GregorianCalendar(), new GregorianCalendar(), new GregorianCalendar(), "", new GregorianCalendar(), "");
+        this.fillTimes();
+    }
+
+    public void fillTimes() {
+        for (int i = 7; i <= 19; i++) {
+            boolean isMorning = i < 12;
+            int hour = isMorning ? i:(i == 12 ? i:i - 12);
+
+            times.add(Integer.toString(hour) + ":00 " + (isMorning ? "AM":"PM"));
+            times.add(Integer.toString(hour) + ":30 " + (isMorning ? "AM":"PM"));
+        }
+        this.tp_start.getItems().addAll(times);
+        this.tp_end.getItems().addAll(times);
     }
 
     @Override
@@ -146,6 +167,13 @@ public class AppointmentFormController extends FormController  {
                 throw new Exception(
                     "Invalid value for ".concat(this.dp_start.getValue() == null ? "\"Starts on\"":"\"Ends on\"")
                     .concat("|Make sure you are selecting an start and end date"));
+
+            isInvalid = this.tp_start.getValue() == null || this.tp_end.getValue() == null;
+            if (isInvalid)
+                throw new Exception(
+                    "Invalid value for ".concat(this.tp_start.getValue() == null ? "\"Starts on\"":"\"Ends on\"")
+                    .concat("|Make sure you are selecting an start and end time")
+                );
         } catch (Exception e) {
             String[] messages = e.getMessage().split("\\|");
             MessageBox.showWarning(messages[0], messages[1]);
@@ -155,12 +183,40 @@ public class AppointmentFormController extends FormController  {
         return !isInvalid;
     }
 
+    public DateTime resolveDateAndTime(DatePicker pickedDate, String pickedTime) {
+        LocalDate dateOn = pickedDate.getValue();
+        LocalTime timeOn = LocalTime.now();
+
+        String[] split;
+
+        split = pickedTime.split(" ");
+        boolean isMorning = split[1] == "AM";
+
+        split = split[0].split(":");
+        int hour = Integer.parseInt(split[0]);
+        int mins = Integer.parseInt(split[1]);
+
+        timeOn = timeOn.withHour(!isMorning ? hour + 12:hour).withMinute(mins);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(dateOn.getYear(), dateOn.getMonthValue()-1, dateOn.getDayOfMonth(),
+                timeOn.getHour(), timeOn.getMinute(), timeOn.getSecond());
+
+        DateTime datetime = new DateTime();
+        datetime.setTime(calendar.getTime());
+
+        return datetime;
+    }
+
     public void onBtnSaveClick(ActionEvent actionEvent) {
         try {
             if (!this.validate()) return;
 
             this.appointment.setCustomerId(this.selectedCustomer.getCustomerId());
             this.appointment.setUserId(this.selectedUser.getUserId());
+
+            this.appointment.setStart(this.resolveDateAndTime(this.dp_start, (String) this.tp_start.getValue()));
+            this.appointment.setEnd(this.resolveDateAndTime(this.dp_end, (String) this.tp_end.getValue()));
 
             new AppointmentManager().insert(this.appointment);
 
@@ -193,7 +249,7 @@ public class AppointmentFormController extends FormController  {
             });
 
             // Make Table View filterable
-            lm.getController().setOnSearchAction((Callback<Control[], Object>) controls -> {
+            lm.getController().setOnSearchAction((Callback<Object[], Object>) controls -> {
                 TableView<Customer> tableView = (TableView<Customer>) controls[0];
                 TextField textField = (TextField) controls[1];
 
@@ -206,9 +262,10 @@ public class AppointmentFormController extends FormController  {
             });
 
             // Choose a row
-            lm.getController().setOnChooseAction((Callback<Control[], Object>) controls -> {
+            lm.getController().setOnChooseAction((Callback<Object[], Object>) controls -> {
                 TableView<Customer> tableView = (TableView<Customer>) controls[0];
                 Button button = (Button) controls[1];
+                ListPickerController lpc = (ListPickerController) controls[2];
 
                 button.setOnMouseClicked(mouseEvent -> {
                     int i = tableView.getSelectionModel().getSelectedIndex();
@@ -217,6 +274,8 @@ public class AppointmentFormController extends FormController  {
                     else {
                         this.selectedCustomer = tableView.getItems().get(i);
                         this.lb_selected_customer.setText(selectedCustomer.getCustomerName());
+
+                        lpc.getStage().close();
                     }
                 });
                 return null;
@@ -248,7 +307,7 @@ public class AppointmentFormController extends FormController  {
             });
 
             // Make Table View filterable
-            lm.getController().setOnSearchAction((Callback<Control[], Object>) controls -> {
+            lm.getController().setOnSearchAction((Callback<Object[], Object>) controls -> {
                 TableView<User> tableView = (TableView<User>) controls[0];
                 TextField textField = (TextField) controls[1];
 
@@ -261,9 +320,10 @@ public class AppointmentFormController extends FormController  {
             });
 
             // Choose a row
-            lm.getController().setOnChooseAction((Callback<Control[], Object>) controls -> {
+            lm.getController().setOnChooseAction((Callback<Object[], Object>) controls -> {
                 TableView<User> tableView = (TableView<User>) controls[0];
                 Button button = (Button) controls[1];
+                ListPickerController lpc = (ListPickerController) controls[2];
 
                 button.setOnMouseClicked(mouseEvent -> {
                     int i = tableView.getSelectionModel().getSelectedIndex();
@@ -272,6 +332,8 @@ public class AppointmentFormController extends FormController  {
                     else {
                         this.selectedUser = tableView.getItems().get(i);
                         this.lb_selected_user.setText(selectedUser.getUserName());
+
+                        lpc.getStage().close();
                     }
                 });
                 return null;

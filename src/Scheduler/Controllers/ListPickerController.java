@@ -3,6 +3,7 @@ package Scheduler.Controllers;
 import Scheduler.Main;
 import Scheduler.Repository.BaseController;
 import Scheduler.Repository.IPickerController;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Control;
@@ -28,7 +29,7 @@ public class ListPickerController extends BaseController implements IPickerContr
 
     public void setOnSearchAction(Callback callback) throws Exception {
         try {
-            Control[] controls = {this.tv_picker, this.tf_search};
+            Object[] controls = {this.tv_picker, this.tf_search};
             callback.call(controls);
         }catch (Exception e) {
             Main.consoleStack(e);
@@ -37,7 +38,7 @@ public class ListPickerController extends BaseController implements IPickerContr
 
     public void setOnChooseAction(Callback callback) throws Exception {
         try {
-            Control[] controls = {this.tv_picker, this.btn_choose};
+            Object[] controls = {this.tv_picker, this.btn_choose, this};
             callback.call(controls);
         }catch (Exception e) {
             Main.consoleStack(e);

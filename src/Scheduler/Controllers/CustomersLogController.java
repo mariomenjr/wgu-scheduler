@@ -1,5 +1,6 @@
 package Scheduler.Controllers;
 
+import Scheduler.Dao.AppointmentManager;
 import Scheduler.Dao.CustomerManager;
 import Scheduler.Main;
 import Scheduler.Models.Appointment;
@@ -96,8 +97,24 @@ public class CustomersLogController extends BaseController implements ILogContro
             int i = this.tv_customers.getSelectionModel().getSelectedIndex();
             if (i < 0)
                 MessageBox.showWarning("Unable to remove", "No Row has been selected");
-            else
-                this.observableList.remove(i);
+//            else
+//                this.observableList.remove(i);
+            else {
+                Customer cu = this.observableList.get(i);
+                MessageBox.askConfirmation(
+                    "Do you want to remove \"".concat(cu.getCustomerName()).concat("\"?"),
+                    "It's been customer since ".concat(cu.getCreateDate().getTime().toString()),
+                    o -> {
+                        try {
+                            new CustomerManager().delete(cu);
+                            return this.observableList.remove(i);
+                        } catch (Exception e) {
+                            Main.consoleStack(e);
+                        }
+                        return null;
+                    }
+                );
+            }
         } catch(Exception e) {
             Main.consoleStack(e);
         }
