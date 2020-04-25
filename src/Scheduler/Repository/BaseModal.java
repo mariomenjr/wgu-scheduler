@@ -17,8 +17,8 @@ public abstract class BaseModal<C> implements IComponent<C> {
     private int _screenWidth = 400;
     private int _screenHeight = 200;
 
-    public Stage openScreen() throws Exception {
-        Stage primaryStage = Main.getMainStage();
+    public Stage openScreen(Stage owner) throws Exception {
+        // Stage primaryStage = Main.getMainStage();
 
         URL urlResource = this.getClass().getResource(this.getViewPath());
         FXMLLoader loader = new FXMLLoader(urlResource);
@@ -29,7 +29,7 @@ public abstract class BaseModal<C> implements IComponent<C> {
         this._modal.setScene(new Scene(template, this._screenWidth, this._screenHeight));
 
         this._modal.initModality(Modality.WINDOW_MODAL);
-        this._modal.initOwner(primaryStage);
+        this._modal.initOwner(owner);
         this._modal.setResizable(false);
         this._modal.show();
 

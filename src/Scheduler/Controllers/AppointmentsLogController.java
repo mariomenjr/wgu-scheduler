@@ -80,7 +80,7 @@ public class AppointmentsLogController extends BaseController implements ILogCon
     public void onAddClick(ActionEvent actionEvent) {
         try {
             AppointmentFormModal apm = new AppointmentFormModal();
-            Stage appointmentFormWindow = apm.openScreen();
+            Stage appointmentFormWindow = apm.openScreen(this.getStage());
 
             appointmentFormWindow.setWidth(400);
             appointmentFormWindow.setHeight(600);
@@ -94,7 +94,19 @@ public class AppointmentsLogController extends BaseController implements ILogCon
     @Override
     public void onEditClick(ActionEvent actionEvent) {
         try {
+            int i = this.tv_appointments.getSelectionModel().getSelectedIndex();
+            if (i < 0)
+                MessageBox.showWarning("Unable to edit", "No Row has been selected");
+            else {
+                AppointmentFormModal apm = new AppointmentFormModal();
+                Stage appointmentFormWindow = apm.openScreen(this.getStage());
 
+                apm.getController().setRecord(this.observableList.get(i));
+
+                appointmentFormWindow.setWidth(400);
+                appointmentFormWindow.setHeight(600);
+                appointmentFormWindow.centerOnScreen();
+            }
         } catch(Exception e) {
             Main.consoleStack(e);
         }

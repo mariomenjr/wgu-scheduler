@@ -1,7 +1,6 @@
 package Scheduler.Models;
 
 import Scheduler.Utils.DateTime;
-
 import java.util.Calendar;
 
 public class Appointment {
@@ -126,7 +125,7 @@ public class Appointment {
     }
 
     public void setStart(DateTime start) {
-        this.start = start;
+        this.start = start;//Parser.resolveRefTimeZone();
     }
 
     public DateTime getEnd() {

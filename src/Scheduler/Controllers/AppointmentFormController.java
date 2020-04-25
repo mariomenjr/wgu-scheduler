@@ -11,6 +11,7 @@ import Scheduler.Models.User;
 import Scheduler.Repository.FormController;
 import Scheduler.Utils.DateTime;
 import Scheduler.Utils.MessageBox;
+import Scheduler.Utils.Parser;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -22,16 +23,19 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 
 import java.lang.reflect.Method;
+import java.text.ParseException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 public class AppointmentFormController extends FormController  {
 
-    public Appointment appointment;
-    public Customer selectedCustomer;
-    public User selectedUser;
+    private Appointment appointment;
+    private Customer selectedCustomer;
+    private User selectedUser;
 
     @FXML
     public Label lb_customer;
@@ -96,18 +100,6 @@ public class AppointmentFormController extends FormController  {
         this.fillTimes();
     }
 
-    public void fillTimes() {
-        for (int i = 7; i <= 19; i++) {
-            boolean isMorning = i < 12;
-            int hour = isMorning ? i:(i == 12 ? i:i - 12);
-
-            times.add(Integer.toString(hour) + ":00 " + (isMorning ? "AM":"PM"));
-            times.add(Integer.toString(hour) + ":30 " + (isMorning ? "AM":"PM"));
-        }
-        this.tp_start.getItems().addAll(times);
-        this.tp_end.getItems().addAll(times);
-    }
-
     @Override
     protected void applyLocale() {
         try {
@@ -123,6 +115,9 @@ public class AppointmentFormController extends FormController  {
             this.lb_end.setText(Main.t("ui_appointment_form_lb_end"));
             this.lb_selected_customer.setText(Main.t("ui_appointment_form_lb_selected_customer"));
             this.lb_selected_user.setText(Main.t("ui_appointment_form_lb_selected_user"));
+            this.btn_save.setText(Main.t("ui_appointment_form_btn_save"));
+            this.btn_cancel.setText(Main.t("ui_appointment_form_btn_cancel"));
+
         } catch(Exception e) {
             Main.consoleStack(e);
         }
@@ -196,7 +191,7 @@ public class AppointmentFormController extends FormController  {
         int hour = Integer.parseInt(split[0]);
         int mins = Integer.parseInt(split[1]);
 
-        timeOn = timeOn.withHour(!isMorning ? hour + 12:hour).withMinute(mins);
+        timeOn = timeOn.withHour(isMorning ? hour + 12:hour).withMinute(mins);
 
         Calendar calendar = Calendar.getInstance();
         calendar.set(dateOn.getYear(), dateOn.getMonthValue()-1, dateOn.getDayOfMonth(),
@@ -230,7 +225,7 @@ public class AppointmentFormController extends FormController  {
     public void onBtnChooseCustomerClick() {
         try {
             ListPickerModal lm = new ListPickerModal();
-            Stage lmModal = lm.openScreen();
+            Stage lmModal = lm.openScreen(this.getStage());
 
             lmModal.setWidth(500);
             lmModal.setHeight(300);
@@ -288,7 +283,7 @@ public class AppointmentFormController extends FormController  {
     public void onBtnChooseUserClick() {
         try {
             ListPickerModal lm = new ListPickerModal();
-            Stage lmModal = lm.openScreen();
+            Stage lmModal = lm.openScreen(this.getStage());
 
             lmModal.setWidth(500);
             lmModal.setHeight(300);
@@ -341,5 +336,72 @@ public class AppointmentFormController extends FormController  {
         } catch(Exception e) {
             Main.consoleStack(e);
         }
+    }
+
+    @Override
+    protected void populateForm() {
+        this.tf_title.setText(this.appointment.getTitle());
+        this.tf_description.setText(this.appointment.getDescription());
+        this.tf_contact.setText(this.appointment.getContact());
+        this.tf_location.setText(this.appointment.getLocation());
+        this.tf_type.setText(this.appointment.getType());
+        this.tf_url.setText(this.appointment.getUrl());
+
+        try {
+            // These two assignment can be improved
+            ObservableList<User> user = new UserManager().select("userId = ".concat(Integer.toString(this.appointment.getUserId())));
+            this.selectedUser = user.get(0);
+            this.lb_selected_user.setText(this.selectedUser.getUserName());
+
+            ObservableList<Customer> customer = new CustomerManager().select("customerId = ".concat(Integer.toString(this.appointment.getCustomerId())));
+            this.selectedCustomer = customer.get(0);
+            this.lb_selected_customer.setText(this.selectedCustomer.getCustomerName());
+        } catch (Exception ex) {
+            Main.consoleStack(ex);
+        }
+
+        DateTime sdt = this.appointment.getStart();
+        DateTime edt = this.appointment.getEnd();
+
+        LocalDateTime sldt = LocalDateTime.ofInstant(sdt.toInstant(), sdt.getTimeZone().toZoneId());
+        LocalDateTime eldt = LocalDateTime.ofInstant(edt.toInstant(), edt.getTimeZone().toZoneId());
+
+        // System.out.println();
+        this.dp_start.setValue(sldt.toLocalDate());
+        this.dp_end.setValue(eldt.toLocalDate());
+
+        for (int i = 0; i < this.tp_start.getItems().size(); i++) {
+            if (this.tp_start.getItems().get(i).toString().equals(sldt.toLocalTime().format(DateTimeFormatter.ofPattern("h:mm a"))))
+                this.tp_start.setValue(this.tp_start.getItems().get(i));
+        }
+
+        for (int i = 0; i < this.tp_end.getItems().size(); i++) {
+            if (this.tp_end.getItems().get(i).toString().equals(eldt.toLocalTime().format(DateTimeFormatter.ofPattern("h:mm a"))))
+                this.tp_end.setValue(this.tp_end.getItems().get(i));
+        }
+    }
+
+    @Override
+    public void setRecord(Object record) {
+        this.appointment = (Appointment) record;
+        this.populateForm();
+
+        try {
+            this.btn_save.setText(Main.t("ui_appointment_form_btn_update"));
+        } catch (Exception e) {
+            Main.consoleStack(e);
+        }
+    }
+
+    public void fillTimes() {
+        for (int i = 7; i <= 19; i++) {
+            boolean isMorning = i < 12;
+            int hour = isMorning ? i:(i == 12 ? i:i - 12);
+
+            times.add(Integer.toString(hour) + ":00 " + (isMorning ? "AM":"PM"));
+            times.add(Integer.toString(hour) + ":30 " + (isMorning ? "AM":"PM"));
+        }
+        this.tp_start.getItems().addAll(times);
+        this.tp_end.getItems().addAll(times);
     }
 }

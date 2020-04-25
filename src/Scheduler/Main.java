@@ -6,6 +6,7 @@ import javafx.stage.Stage;
 
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.TimeZone;
 
 public class Main extends Application {
 
@@ -22,7 +23,7 @@ public class Main extends Application {
     }
 
     private static void _renderLogin() throws Exception {
-        Stage loginScreen = new LoginModal().openScreen();
+        Stage loginScreen = new LoginModal().openScreen(Main.getMainStage());
 
         loginScreen.setTitle(Main.t("ui_login_window_title"));
         loginScreen.centerOnScreen();
@@ -63,6 +64,8 @@ public class Main extends Application {
     public static Stage getMainStage() {
         return _mainStage;
     }
+
+    public static TimeZone getRefTimeZone() { return TimeZone.getTimeZone("Etc/GMT"); }
 
     public static void main(String[] args) {
         launch(args);

@@ -65,7 +65,7 @@ public class LoginController extends BaseController {
                     Main.log("Logged in!");
 
                     HubModal hubModal = new HubModal();
-                    Stage hubWindow = hubModal.openScreen();
+                    Stage hubWindow = hubModal.openScreen(Main.getMainStage());
                     hubWindow.setWidth(800);
                     hubWindow.setHeight(500);
                     hubWindow.centerOnScreen();
