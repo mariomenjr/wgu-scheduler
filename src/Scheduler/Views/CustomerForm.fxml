@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<GridPane maxHeight="600.0" maxWidth="400.0" minHeight="600.0" minWidth="400.0" prefHeight="600.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Scheduler.Controllers.CustomerFormController">
+    <rowConstraints>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+    </rowConstraints>
+    <columnConstraints>
+        <ColumnConstraints hgrow="ALWAYS" maxWidth="194.0" minWidth="10.0" prefWidth="103.0" />
+        <ColumnConstraints hgrow="ALWAYS" maxWidth="296.0" minWidth="10.0" prefWidth="269.0" />
+    </columnConstraints>
+    <children>
+        <Label fx:id="lb_name" text="Name:" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+            <GridPane.margin>
+                <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
+            </GridPane.margin>
+        </Label>
+        <Label fx:id="lb_address" text="Address:" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+            <GridPane.margin>
+                <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
+            </GridPane.margin>
+        </Label>
+        <Label fx:id="lb_unit" text="Unit:" GridPane.halignment="RIGHT" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+            <GridPane.margin>
+                <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
+            </GridPane.margin>
+        </Label>
+        <Label fx:id="lb_city" text="City:" GridPane.halignment="RIGHT" GridPane.rowIndex="4" GridPane.valignment="CENTER">
+            <GridPane.margin>
+                <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
+            </GridPane.margin>
+        </Label>
+        <Label fx:id="lb_postal" text="Postal Code:" GridPane.halignment="RIGHT" GridPane.rowIndex="5" GridPane.valignment="CENTER">
+            <GridPane.margin>
+                <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
+            </GridPane.margin>
+        </Label>
+        <Label fx:id="lb_phone" text="Phone:" GridPane.halignment="RIGHT" GridPane.rowIndex="6" GridPane.valignment="CENTER">
+            <GridPane.margin>
+                <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
+            </GridPane.margin>
+        </Label>
+        <Label fx:id="lb_state" text="State:" GridPane.halignment="RIGHT" GridPane.rowIndex="7" GridPane.valignment="CENTER">
+            <GridPane.margin>
+                <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
+            </GridPane.margin>
+        </Label>
+        <Label fx:id="lb_country" text="Country:" GridPane.halignment="RIGHT" GridPane.rowIndex="8" GridPane.valignment="CENTER">
+            <GridPane.margin>
+                <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
+            </GridPane.margin>
+        </Label>
+        <TextField id="Name" fx:id="tf_name" onKeyReleased="#onTextFieldWrite" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+        <TextField id="Address" fx:id="tf_address" onKeyReleased="#onTextFieldWrite" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+        <TextField id="Unit" fx:id="tf_unit" onKeyReleased="#onTextFieldWrite" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+        <TextField id="City" fx:id="tf_city" onKeyReleased="#onTextFieldWrite" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+        <TextField id="Postal" fx:id="tf_postal" onKeyReleased="#onTextFieldWrite" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+        <TextField id="Phone" fx:id="tf_phone" onKeyReleased="#onTextFieldWrite" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+      <TextField id="State" fx:id="tf_state" onKeyReleased="#onTextFieldWrite" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+        <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="7.0" GridPane.columnIndex="1" GridPane.rowIndex="9">
+            <children>
+                <Button fx:id="btn_save" mnemonicParsing="false" onAction="#onBtnSaveClick" text="Save" />
+                <Button fx:id="btn_cancel" mnemonicParsing="false" text="Cancel" />
+            </children>
+        </HBox>
+        <Label text="[Action] Customer" GridPane.columnSpan="2">
+            <font>
+                <Font name="System Bold" size="13.0" />
+            </font>
+            <GridPane.margin>
+                <Insets bottom="14.0" left="14.0" right="14.0" top="14.0" />
+            </GridPane.margin>
+        </Label>
+      <TextField id="Country" fx:id="tf_country" onKeyReleased="#onTextFieldWrite" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+    </children>
+    <padding>
+        <Insets bottom="7.0" left="7.0" right="21.0" top="7.0" />
+    </padding>
+</GridPane>

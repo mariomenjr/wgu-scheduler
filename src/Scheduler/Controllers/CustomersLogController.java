@@ -1,5 +1,7 @@
 package Scheduler.Controllers;
 
+import Scheduler.Controllers.Modals.AppointmentFormModal;
+import Scheduler.Controllers.Modals.CustomerFormModal;
 import Scheduler.Dao.AppointmentManager;
 import Scheduler.Dao.CustomerManager;
 import Scheduler.Main;
@@ -18,6 +20,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
+import javafx.stage.Stage;
 
 public class CustomersLogController extends BaseController implements ILogController {
 
@@ -76,7 +79,19 @@ public class CustomersLogController extends BaseController implements ILogContro
     }
 
     @Override
-    public void onAddClick(ActionEvent actionEvent) {}
+    public void onAddClick(ActionEvent actionEvent) {
+        try {
+            CustomerFormModal apm = new CustomerFormModal();
+            Stage customerFormWindow = apm.openScreen(this.getStage());
+
+            customerFormWindow.setWidth(400);
+            customerFormWindow.setHeight(600);
+            customerFormWindow.centerOnScreen();
+
+        } catch(Exception e) {
+            Main.consoleStack(e);
+        }
+    }
 
     @Override
     public void onEditClick(ActionEvent actionEvent) {}

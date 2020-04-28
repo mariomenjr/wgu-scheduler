@@ -1,7 +1,6 @@
 package Scheduler.Models;
 
 import Scheduler.Utils.DateTime;
-import javafx.beans.property.SimpleStringProperty;
 
 import java.util.Calendar;
 

@@ -11,7 +11,6 @@ import Scheduler.Models.User;
 import Scheduler.Repository.FormController;
 import Scheduler.Utils.DateTime;
 import Scheduler.Utils.MessageBox;
-import Scheduler.Utils.Parser;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -23,7 +22,6 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 
 import java.lang.reflect.Method;
-import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
