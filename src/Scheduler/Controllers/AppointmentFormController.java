@@ -31,10 +31,14 @@ import java.util.GregorianCalendar;
 
 public class AppointmentFormController extends FormController  {
 
+
     private Appointment appointment;
     private Customer selectedCustomer;
     private User selectedUser;
+    private boolean isNew;
 
+    @FXML
+    public Label lb_header;
     @FXML
     public Label lb_customer;
     @FXML
@@ -96,6 +100,7 @@ public class AppointmentFormController extends FormController  {
         this.appointment = new Appointment(0, 1, 1, "", "", "", "", "", "",
                 new GregorianCalendar(), new GregorianCalendar(), new GregorianCalendar(), "", new GregorianCalendar(), "");
         this.fillTimes();
+        this.lb_header.setText("New Appointment");
     }
 
     @Override
@@ -176,6 +181,11 @@ public class AppointmentFormController extends FormController  {
         return !isInvalid;
     }
 
+    @Override
+    protected boolean getIsNew() {
+        return this.isNew;
+    }
+
     public DateTime resolveDateAndTime(DatePicker pickedDate, String pickedTime) {
         LocalDate dateOn = pickedDate.getValue();
         LocalTime timeOn = LocalTime.now();
@@ -211,9 +221,15 @@ public class AppointmentFormController extends FormController  {
             this.appointment.setStart(this.resolveDateAndTime(this.dp_start, (String) this.tp_start.getValue()));
             this.appointment.setEnd(this.resolveDateAndTime(this.dp_end, (String) this.tp_end.getValue()));
 
-            new AppointmentManager().insert(this.appointment);
+            if (this.getIsNew()) {
+                new AppointmentManager().insert(this.appointment);
+                MessageBox.showInformation("\"".concat(this.appointment.getTitle()).concat("\" has been created!"), "It'll take place on ".concat(this.appointment.getStart().getTime().toLocaleString()));
+            } else {
+                new AppointmentManager().update(this.appointment);
+                MessageBox.showInformation("\"".concat(this.appointment.getTitle()).concat("\" has been updated!"), "It'll take place on ".concat(this.appointment.getStart().getTime().toLocaleString()));
+            }
 
-            MessageBox.showInformation("\"".concat(this.appointment.getTitle()).concat("\" has been created!"), "It'll take place on ".concat(this.appointment.getStart().getTime().toLocaleString()));
+            this.getStage().close();
         } catch (Exception e) {
             MessageBox.showInformation("\"".concat(this.appointment.getTitle()).concat("\" failed to be created!"), "Due to: ".concat(e.getMessage()));
             Main.consoleStack(e);
@@ -383,6 +399,8 @@ public class AppointmentFormController extends FormController  {
     public void setRecord(Object record) {
         this.appointment = (Appointment) record;
         this.populateForm();
+        this.isNew = false;
+        this.lb_header.setText("Update Appointment");
 
         try {
             this.btn_save.setText(Main.t("ui_appointment_form_btn_update"));

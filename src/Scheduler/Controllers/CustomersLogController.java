@@ -94,14 +94,22 @@ public class CustomersLogController extends BaseController implements ILogContro
     }
 
     @Override
-    public void onEditClick(ActionEvent actionEvent) {}
-
-    @Override
-    public void initialize() {
-        super.initialize();
+    public void onEditClick(ActionEvent actionEvent) {
         try {
-            this.fillData();
-        } catch (Exception e) {
+            int i = this.tv_customers.getSelectionModel().getSelectedIndex();
+            if (i < 0)
+                MessageBox.showWarning("Unable to edit", "No Row has been selected");
+            else {
+                CustomerFormModal cpm = new CustomerFormModal();
+                Stage customerFormWindow = cpm.openScreen(this.getStage());
+
+                cpm.getController().setRecord(this.observableList.get(i));
+
+                customerFormWindow.setWidth(400);
+                customerFormWindow.setHeight(600);
+                customerFormWindow.centerOnScreen();
+            }
+        } catch(Exception e) {
             Main.consoleStack(e);
         }
     }
@@ -112,8 +120,6 @@ public class CustomersLogController extends BaseController implements ILogContro
             int i = this.tv_customers.getSelectionModel().getSelectedIndex();
             if (i < 0)
                 MessageBox.showWarning("Unable to remove", "No Row has been selected");
-//            else
-//                this.observableList.remove(i);
             else {
                 Customer cu = this.observableList.get(i);
                 MessageBox.askConfirmation(
@@ -131,6 +137,16 @@ public class CustomersLogController extends BaseController implements ILogContro
                 );
             }
         } catch(Exception e) {
+            Main.consoleStack(e);
+        }
+    }
+
+    @Override
+    public void initialize() {
+        super.initialize();
+        try {
+            this.fillData();
+        } catch (Exception e) {
             Main.consoleStack(e);
         }
     }

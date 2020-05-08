@@ -2,12 +2,17 @@ package Scheduler.Controllers;
 
 import Scheduler.Controllers.Tabs.AppointmentsLogTab;
 import Scheduler.Controllers.Tabs.CustomersLogTab;
+import Scheduler.Dao.AppointmentManager;
 import Scheduler.Main;
 import Scheduler.Repository.BaseController;
+import Scheduler.Utils.MessageBox;
 import javafx.fxml.FXML;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
+
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 public class HubController extends BaseController {
 
@@ -63,6 +68,12 @@ public class HubController extends BaseController {
                         }
                     }
             );
+
+            new AppointmentManager().select().forEach(appointment -> {
+                long minutes = ChronoUnit.MINUTES.between(LocalDateTime.now(), appointment.getStart().toInstant());
+                if (minutes < 15)
+                    MessageBox.showInformation("`".concat(appointment.getTitle().concat("` will start within ").concat(Long.toString(minutes)).concat(" minute(s)")), "@ ".concat(appointment.getStart().toString()));
+            });
         } catch (Exception e) {
             Main.consoleStack(e);
         }

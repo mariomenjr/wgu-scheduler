@@ -44,7 +44,39 @@ public class AppointmentManager extends BaseManager<Appointment> {
     }
 
     @Override
-    protected String instanceToDeleteQuery(Appointment instance) throws ParseException, Exception {
+    protected String instanceToUpdateQuery(Appointment instance) throws Exception {
+        GregorianCalendar start = new GregorianCalendar();
+        GregorianCalendar end = new GregorianCalendar();
+        GregorianCalendar createdOn = new GregorianCalendar();
+        GregorianCalendar updatedOn = new GregorianCalendar();
+
+        start.setTime(instance.getStart().getTime());
+        end.setTime(instance.getEnd().getTime());
+        createdOn.setTime(instance.getCreateDate().getTime());
+        updatedOn.setTime(instance.getLastUpdate().getTime());
+
+        return ""
+                .concat("UPDATE appointment SET ")
+                .concat("customerId = " + Integer.toString(instance.getCustomerId()) + ",")
+                .concat("userId = " + Integer.toString(instance.getUserId()) + ",")
+                .concat("title = '" + instance.getTitle() + "',")
+                .concat("description = '" + instance.getDescription() + "',")
+                .concat("location = '" + instance.getLocation() + "',")
+                .concat("contact = '" + instance.getContact() + "',")
+                .concat("type = '" + instance.getType() + "',")
+                .concat("url = '" + instance.getUrl() + "',")
+                .concat("start = '" + Parser.CalendarToString(start) + "',")
+                .concat("end = '" + Parser.CalendarToString(end) + "',")
+                .concat("createDate ='" + Parser.CalendarToString(createdOn) + "',")
+                .concat("createdBy = '" + "mariomenjr" + "',")
+                .concat("lastUpdate = '" + Parser.CalendarToString(updatedOn) + "',")
+                .concat("lastUpdateBy = '" + "mariomenjr" + "'")
+                .concat(" WHERE appointmentId = ")
+                .concat(Integer.toString(instance.getAppointmentId()));
+    }
+
+    @Override
+    protected String instanceToDeleteQuery(Appointment instance) throws Exception {
         return ""
                 .concat("DELETE FROM appointment WHERE appointmentId = ")
                 .concat(Integer.toString(instance.getAppointmentId()));

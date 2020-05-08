@@ -1,7 +1,6 @@
 package Scheduler.Dao;
 
-import Scheduler.Models.Appointment;
-import Scheduler.Models.Customer;
+import Scheduler.Models.Address;
 import Scheduler.Repository.BaseManager;
 import Scheduler.Utils.DateTime;
 import Scheduler.Utils.Parser;
@@ -12,10 +11,10 @@ import java.util.GregorianCalendar;
 
 import static Scheduler.Utils.Parser.StringToCalendar;
 
-public class CustomerManager extends BaseManager<Customer> {
+public class AddressManager extends BaseManager<Address> {
 
     @Override
-    protected String instanceToInsertQuery(Customer instance) throws ParseException {
+    protected String instanceToInsertQuery(Address instance) throws ParseException {
         GregorianCalendar createdOn = new GregorianCalendar();
         GregorianCalendar updatedOn = new GregorianCalendar();
 
@@ -23,10 +22,12 @@ public class CustomerManager extends BaseManager<Customer> {
         updatedOn.setTime(instance.getLastUpdate().getTime());
 
         return ""
-                .concat("INSERT INTO customer VALUES(NULL,")
-                .concat("'" + instance.getCustomerName() + "',")
-                .concat(Integer.toString(instance.getAddressId()) + ",")
-                .concat("'" + (instance.isActive() ? "1":"0") + "',")
+                .concat("INSERT INTO address VALUES(NULL,")
+                .concat("'" + instance.getAddress() + "',")
+                .concat("'" + instance.getAddress2() + "',")
+                .concat(Integer.toString(instance.getCityId()) + ",")
+                .concat("'" + instance.getPostalCode() + "',")
+                .concat("'" + instance.getPhone() + "',")
                 .concat("'" + Parser.CalendarToString(createdOn) + "',")
                 .concat("'" + "mariomenjr" + "',")
                 .concat("'" + Parser.CalendarToString(updatedOn) + "',")
@@ -35,7 +36,7 @@ public class CustomerManager extends BaseManager<Customer> {
     }
 
     @Override
-    protected String instanceToUpdateQuery(Customer instance) throws Exception {
+    protected String instanceToUpdateQuery(Address instance) throws Exception {
         GregorianCalendar createdOn = new GregorianCalendar();
         GregorianCalendar updatedOn = new GregorianCalendar();
 
@@ -43,32 +44,36 @@ public class CustomerManager extends BaseManager<Customer> {
         updatedOn.setTime(instance.getLastUpdate().getTime());
 
         return ""
-                .concat("UPDATE customer SET ")
-                .concat("customerName = '" + instance.getCustomerName() + "',")
-                .concat("addressId = " + Integer.toString(instance.getAddressId()) + ",")
-                .concat("active = '" + (instance.isActive() ? "1":"0") + "',")
+                .concat("UPDATE address SET ")
+                .concat("address = '" + instance.getAddress() + "',")
+                .concat("address2 = '" + instance.getAddress2() + "',")
+                .concat("cityId = " + Integer.toString(instance.getCityId()) + ",")
+                .concat("postalCode = '" + instance.getPostalCode() + "',")
+                .concat("phone = '" + instance.getPhone() + "',")
                 .concat("createDate = '" + Parser.CalendarToString(createdOn) + "',")
                 .concat("createdBy = '" + "mariomenjr" + "',")
                 .concat("lastUpdate = '" + Parser.CalendarToString(updatedOn) + "',")
                 .concat("lastUpdateBy = '" + "mariomenjr" + "'")
-                .concat(" WHERE customerId = ")
-                .concat(Integer.toString(instance.getCustomerId()));
+                .concat(" WHERE addressId = ")
+                .concat(Integer.toString(instance.getAddressId()));
     }
 
     @Override
-    protected String instanceToDeleteQuery(Customer instance) throws Exception {
+    protected String instanceToDeleteQuery(Address instance) throws Exception {
         return ""
-                .concat("DELETE FROM customer WHERE customerId = ")
-                .concat(Integer.toString(instance.getCustomerId()));
+            .concat("DELETE FROM address WHERE addressId = ")
+            .concat(Integer.toString(instance.getAddressId()));
     }
 
     @Override
-    protected Customer newInstanceOfEntity(ResultSet resultSet) throws Exception {
-        return new Customer(
-            resultSet.getInt("customerId"),
-            resultSet.getString("customerName"),
+    protected Address newInstanceOfEntity(ResultSet resultSet) throws Exception {
+        return new Address(
             resultSet.getInt("addressId"),
-            resultSet.getInt("active") == 1,
+            resultSet.getString("address"),
+            resultSet.getString("address2"),
+            resultSet.getInt("cityId"),
+            resultSet.getString("postalCode"),
+            resultSet.getString("phone"),
             StringToCalendar(resultSet.getString("createDate")),
             resultSet.getString("createdBy"),
             StringToCalendar(resultSet.getString("lastUpdate")),

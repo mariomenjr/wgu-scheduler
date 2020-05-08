@@ -4,6 +4,10 @@ import Scheduler.Controllers.Modals.LoginModal;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.time.LocalDateTime;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.TimeZone;
@@ -52,6 +56,17 @@ public class Main extends Application {
 
     public static void log(String message) {
         System.out.println(message);
+    }
+
+    public static void write(String message) {
+        try {
+            FileWriter fw = new FileWriter("log-ins.txt", true);
+            PrintWriter pw = new PrintWriter(fw);
+            pw.println(message);
+            pw.close();
+        } catch (Exception e) {
+            consoleStack(e);
+        }
     }
 
     public static void consoleStack(Exception ex) {

@@ -90,25 +90,25 @@
       <TextField id="Url" fx:id="tf_url" onKeyReleased="#onTextFieldWrite" GridPane.columnIndex="1" GridPane.rowIndex="8" />
       <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="7.0" GridPane.columnIndex="1" GridPane.rowIndex="9">
          <children>
-            <DatePicker fx:id="dp_start" />
+            <DatePicker fx:id="dp_start" showWeekNumbers="true" />
             <ComboBox fx:id="tp_start" prefWidth="150.0" />
          </children>
       </HBox>
       <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="7.0" GridPane.columnIndex="1" GridPane.rowIndex="10">
          <children>
-            <DatePicker fx:id="dp_end" />
+            <DatePicker fx:id="dp_end" showWeekNumbers="true" />
             <ComboBox fx:id="tp_end" prefWidth="150.0" />
          </children>
       </HBox>
       <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="7.0" GridPane.columnIndex="1" GridPane.rowIndex="11">
          <children>
             <Button fx:id="btn_save" mnemonicParsing="false" onAction="#onBtnSaveClick" text="Save" />
-            <Button fx:id="btn_cancel" mnemonicParsing="false" text="Cancel" />
+            <Button fx:id="btn_cancel" mnemonicParsing="false" onAction="#onBtnCancel" text="Cancel" />
          </children>
       </HBox>
       <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="7.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <children>
-            <Button fx:id="btn_choose_customer" onAction="#onBtnChooseCustomerClick" mnemonicParsing="false" text="Choose" />
+            <Button fx:id="btn_choose_customer" mnemonicParsing="false" onAction="#onBtnChooseCustomerClick" text="Choose" />
             <Label fx:id="lb_selected_customer" text="[Select a customer]" />
          </children>
          <padding>
@@ -117,14 +117,14 @@
       </HBox>
       <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="7.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
          <children>
-            <Button fx:id="btn_choose_user" onAction="#onBtnChooseUserClick" mnemonicParsing="false" text="Choose" />
+            <Button fx:id="btn_choose_user" mnemonicParsing="false" onAction="#onBtnChooseUserClick" text="Choose" />
             <Label fx:id="lb_selected_user" text="[Select a user]" />
          </children>
          <padding>
             <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
          </padding>
       </HBox>
-      <Label text="[Action] Appointment" GridPane.columnSpan="2">
+      <Label id="header" fx:id="lb_header" text="[Action] Appointment" GridPane.columnSpan="2">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>

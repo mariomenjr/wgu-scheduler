@@ -21,7 +21,6 @@
         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
-        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
     </rowConstraints>
     <columnConstraints>
         <ColumnConstraints hgrow="ALWAYS" maxWidth="194.0" minWidth="10.0" prefWidth="103.0" />
@@ -58,12 +57,7 @@
                 <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
             </GridPane.margin>
         </Label>
-        <Label fx:id="lb_state" text="State:" GridPane.halignment="RIGHT" GridPane.rowIndex="7" GridPane.valignment="CENTER">
-            <GridPane.margin>
-                <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
-            </GridPane.margin>
-        </Label>
-        <Label fx:id="lb_country" text="Country:" GridPane.halignment="RIGHT" GridPane.rowIndex="8" GridPane.valignment="CENTER">
+        <Label fx:id="lb_country" text="Country:" GridPane.halignment="RIGHT" GridPane.rowIndex="7" GridPane.valignment="CENTER">
             <GridPane.margin>
                 <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
             </GridPane.margin>
@@ -74,14 +68,14 @@
         <TextField id="City" fx:id="tf_city" onKeyReleased="#onTextFieldWrite" GridPane.columnIndex="1" GridPane.rowIndex="4" />
         <TextField id="Postal" fx:id="tf_postal" onKeyReleased="#onTextFieldWrite" GridPane.columnIndex="1" GridPane.rowIndex="5" />
         <TextField id="Phone" fx:id="tf_phone" onKeyReleased="#onTextFieldWrite" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-      <TextField id="State" fx:id="tf_state" onKeyReleased="#onTextFieldWrite" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-        <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="7.0" GridPane.columnIndex="1" GridPane.rowIndex="9">
+      <TextField id="Country" fx:id="tf_country" onKeyReleased="#onTextFieldWrite" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+        <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="7.0" GridPane.columnIndex="1" GridPane.rowIndex="8">
             <children>
                 <Button fx:id="btn_save" mnemonicParsing="false" onAction="#onBtnSaveClick" text="Save" />
-                <Button fx:id="btn_cancel" mnemonicParsing="false" text="Cancel" />
+                <Button fx:id="btn_cancel" mnemonicParsing="false" onAction="#onBtnCancel" text="Cancel" />
             </children>
         </HBox>
-        <Label text="[Action] Customer" GridPane.columnSpan="2">
+        <Label id="header" fx:id="lb_header" text="[Action] Customer" GridPane.columnSpan="2">
             <font>
                 <Font name="System Bold" size="13.0" />
             </font>
@@ -89,7 +83,6 @@
                 <Insets bottom="14.0" left="14.0" right="14.0" top="14.0" />
             </GridPane.margin>
         </Label>
-      <TextField id="Country" fx:id="tf_country" onKeyReleased="#onTextFieldWrite" GridPane.columnIndex="1" GridPane.rowIndex="8" />
     </children>
     <padding>
         <Insets bottom="7.0" left="7.0" right="21.0" top="7.0" />

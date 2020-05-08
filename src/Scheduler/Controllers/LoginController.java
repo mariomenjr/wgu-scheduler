@@ -14,7 +14,10 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
+import java.io.PrintWriter;
+import java.sql.Date;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 
 public class LoginController extends BaseController {
 
@@ -71,6 +74,8 @@ public class LoginController extends BaseController {
                     hubWindow.centerOnScreen();
 
                     this.getStage().hide();
+
+                    Main.write(users.get(0).getUserName().concat(" logged in @ ").concat(LocalDateTime.now().toString()));
                 } else
                     MessageBox.showWarning(Main.t("alert_logging_failed_header"), Main.t("alert_logging_failed_message"));
             } catch(Exception e) {

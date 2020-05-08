@@ -16,6 +16,11 @@ public class UserManager extends BaseManager<User> {
     }
 
     @Override
+    protected String instanceToUpdateQuery(User instance) throws Exception {
+        return null;
+    }
+
+    @Override
     protected String instanceToDeleteQuery(User instance) throws ParseException, Exception {
         return null;
     }

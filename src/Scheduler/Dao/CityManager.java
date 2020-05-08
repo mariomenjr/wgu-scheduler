@@ -1,9 +1,7 @@
 package Scheduler.Dao;
 
-import Scheduler.Models.Appointment;
-import Scheduler.Models.Customer;
+import Scheduler.Models.City;
 import Scheduler.Repository.BaseManager;
-import Scheduler.Utils.DateTime;
 import Scheduler.Utils.Parser;
 
 import java.sql.ResultSet;
@@ -12,10 +10,10 @@ import java.util.GregorianCalendar;
 
 import static Scheduler.Utils.Parser.StringToCalendar;
 
-public class CustomerManager extends BaseManager<Customer> {
+public class CityManager extends BaseManager<City> {
 
     @Override
-    protected String instanceToInsertQuery(Customer instance) throws ParseException {
+    protected String instanceToInsertQuery(City instance) throws ParseException {
         GregorianCalendar createdOn = new GregorianCalendar();
         GregorianCalendar updatedOn = new GregorianCalendar();
 
@@ -23,10 +21,9 @@ public class CustomerManager extends BaseManager<Customer> {
         updatedOn.setTime(instance.getLastUpdate().getTime());
 
         return ""
-                .concat("INSERT INTO customer VALUES(NULL,")
-                .concat("'" + instance.getCustomerName() + "',")
-                .concat(Integer.toString(instance.getAddressId()) + ",")
-                .concat("'" + (instance.isActive() ? "1":"0") + "',")
+                .concat("INSERT INTO city VALUES(NULL,")
+                .concat("'" + instance.getCity() + "',")
+                .concat(Integer.toString(instance.getCountryId()) + ",")
                 .concat("'" + Parser.CalendarToString(createdOn) + "',")
                 .concat("'" + "mariomenjr" + "',")
                 .concat("'" + Parser.CalendarToString(updatedOn) + "',")
@@ -35,7 +32,7 @@ public class CustomerManager extends BaseManager<Customer> {
     }
 
     @Override
-    protected String instanceToUpdateQuery(Customer instance) throws Exception {
+    protected String instanceToUpdateQuery(City instance) throws Exception {
         GregorianCalendar createdOn = new GregorianCalendar();
         GregorianCalendar updatedOn = new GregorianCalendar();
 
@@ -43,32 +40,30 @@ public class CustomerManager extends BaseManager<Customer> {
         updatedOn.setTime(instance.getLastUpdate().getTime());
 
         return ""
-                .concat("UPDATE customer SET ")
-                .concat("customerName = '" + instance.getCustomerName() + "',")
-                .concat("addressId = " + Integer.toString(instance.getAddressId()) + ",")
-                .concat("active = '" + (instance.isActive() ? "1":"0") + "',")
+                .concat("UPDATE city SET ")
+                .concat("city = '" + instance.getCity() + "',")
+                .concat("countryId = " + Integer.toString(instance.getCountryId()) + ",")
                 .concat("createDate = '" + Parser.CalendarToString(createdOn) + "',")
                 .concat("createdBy = '" + "mariomenjr" + "',")
                 .concat("lastUpdate = '" + Parser.CalendarToString(updatedOn) + "',")
                 .concat("lastUpdateBy = '" + "mariomenjr" + "'")
-                .concat(" WHERE customerId = ")
-                .concat(Integer.toString(instance.getCustomerId()));
+                .concat(" WHERE cityId = ")
+                .concat(Integer.toString(instance.getCityId()));
     }
 
     @Override
-    protected String instanceToDeleteQuery(Customer instance) throws Exception {
+    protected String instanceToDeleteQuery(City instance) throws Exception {
         return ""
-                .concat("DELETE FROM customer WHERE customerId = ")
-                .concat(Integer.toString(instance.getCustomerId()));
+                .concat("DELETE FROM city WHERE cityId = ")
+                .concat(Integer.toString(instance.getCityId()));
     }
 
     @Override
-    protected Customer newInstanceOfEntity(ResultSet resultSet) throws Exception {
-        return new Customer(
-            resultSet.getInt("customerId"),
-            resultSet.getString("customerName"),
-            resultSet.getInt("addressId"),
-            resultSet.getInt("active") == 1,
+    protected City newInstanceOfEntity(ResultSet resultSet) throws Exception {
+        return new City(
+            resultSet.getInt("cityId"),
+            resultSet.getString("city"),
+            resultSet.getInt("countryId"),
             StringToCalendar(resultSet.getString("createDate")),
             resultSet.getString("createdBy"),
             StringToCalendar(resultSet.getString("lastUpdate")),
