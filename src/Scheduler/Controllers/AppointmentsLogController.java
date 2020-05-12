@@ -41,6 +41,7 @@ public class AppointmentsLogController extends BaseController implements ILogCon
     @Override
     protected void applyLocale() {
         try {
+            this.lb_search.setText(Main.t("ui_tab_appointment_lbl_search"));
             this.btn_add.setText(Main.t("ui_tab_appointment_btn_add"));
             this.btn_edit.setText(Main.t("ui_tab_appointment_btn_edit"));
             this.btn_remove.setText(Main.t("ui_tab_appointment_btn_remove"));

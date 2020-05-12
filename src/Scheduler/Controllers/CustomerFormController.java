@@ -20,7 +20,7 @@ public class CustomerFormController extends FormController {
     private Address address;
     private City city;
     private Country country;
-    private boolean isNew;
+    private boolean isNew = true;
 
     @FXML public Label lb_header;
     @FXML public Label lb_name;
@@ -29,7 +29,6 @@ public class CustomerFormController extends FormController {
     @FXML public Label lb_city;
     @FXML public Label lb_postal;
     @FXML public Label lb_phone;
-    @FXML public Label lb_state;
     @FXML public Label lb_country;
 
     @FXML public TextField tf_name;
@@ -42,6 +41,28 @@ public class CustomerFormController extends FormController {
 
     @FXML public Button btn_save;
     @FXML public Button btn_cancel;
+
+    @Override protected void applyLocale() {
+        try {
+            /*
+            ui_customer_form_lb_header_update=Update Customer
+            ui_customer_form_btn_update=Update
+             */
+            this.lb_header.setText(Main.t("ui_customer_form_lb_header_new"));
+            this.lb_name.setText(Main.t("ui_customer_form_lb_name"));
+            this.lb_address.setText(Main.t("ui_customer_form_lb_address"));
+            this.lb_unit.setText(Main.t("ui_customer_form_lb_unit"));
+            this.lb_city.setText(Main.t("ui_customer_form_lb_city"));
+            this.lb_postal.setText(Main.t("ui_customer_form_lb_postal"));
+            this.lb_phone.setText(Main.t("ui_customer_form_lb_phone"));
+            this.lb_country.setText(Main.t("ui_customer_form_lb_country"));
+
+            this.btn_save.setText(Main.t("ui_customer_form_btn_save"));
+            this.btn_cancel.setText(Main.t("ui_customer_form_btn_cancel"));
+        } catch (Exception e) {
+
+        }
+    }
 
     @Override
     public void initialize() {
@@ -158,7 +179,7 @@ public class CustomerFormController extends FormController {
     @Override public void setRecord(Object record) {
         this.customer = (Customer) record;
         this.isNew = false;
-        this.lb_header.setText("Update Customer");
+
         try {
             this.address = new AddressManager().select("addressId = ".concat("'"+ this.customer.getAddressId() +"'")).get(0);
             this.city = new CityManager().select("cityId =".concat("'" + address.getCityId() + "'")).get(0);
@@ -166,13 +187,12 @@ public class CustomerFormController extends FormController {
 
             this.populateForm();
 
+            this.lb_header.setText(Main.t("ui_customer_form_lb_header_update"));
             this.btn_save.setText(Main.t("ui_customer_form_btn_update"));
         } catch (Exception e) {
             Main.consoleStack(e);
         }
     }
-
-    @Override protected void applyLocale() {}
 
     public void onBtnSaveClick(ActionEvent actionEvent) {
         try {

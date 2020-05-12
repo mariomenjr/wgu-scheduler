@@ -43,6 +43,7 @@ public class CustomersLogController extends BaseController implements ILogContro
     @Override
     protected void applyLocale() {
         try {
+            this.lb_search.setText(Main.t("ui_tab_customer_lbl_search"));
             this.btn_add.setText(Main.t("ui_tab_customer_btn_add"));
             this.btn_edit.setText(Main.t("ui_tab_customer_btn_edit"));
             this.btn_remove.setText(Main.t("ui_tab_customer_btn_remove"));

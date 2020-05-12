@@ -11,6 +11,7 @@ import Scheduler.Models.User;
 import Scheduler.Repository.FormController;
 import Scheduler.Utils.DateTime;
 import Scheduler.Utils.MessageBox;
+import Scheduler.Utils.Parser;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -35,7 +36,7 @@ public class AppointmentFormController extends FormController  {
     private Appointment appointment;
     private Customer selectedCustomer;
     private User selectedUser;
-    private boolean isNew;
+    private boolean isNew = true;
 
     @FXML
     public Label lb_header;
@@ -106,6 +107,7 @@ public class AppointmentFormController extends FormController  {
     @Override
     protected void applyLocale() {
         try {
+            this.lb_header.setText(Main.t("ui_appointment_form_lb_header_new"));
             this.lb_customer.setText(Main.t("ui_appointment_form_lb_customer"));
             this.lb_user.setText(Main.t("ui_appointment_form_lb_user"));
             this.lb_title.setText(Main.t("ui_appointment_form_lb_title"));
@@ -118,9 +120,12 @@ public class AppointmentFormController extends FormController  {
             this.lb_end.setText(Main.t("ui_appointment_form_lb_end"));
             this.lb_selected_customer.setText(Main.t("ui_appointment_form_lb_selected_customer"));
             this.lb_selected_user.setText(Main.t("ui_appointment_form_lb_selected_user"));
+
+            this.btn_choose_customer.setText(Main.t("ui_list_picker_btn_choose"));
+            this.btn_choose_user.setText(Main.t("ui_list_picker_btn_choose"));
+
             this.btn_save.setText(Main.t("ui_appointment_form_btn_save"));
             this.btn_cancel.setText(Main.t("ui_appointment_form_btn_cancel"));
-
         } catch(Exception e) {
             Main.consoleStack(e);
         }
@@ -172,6 +177,13 @@ public class AppointmentFormController extends FormController  {
                     "Invalid value for ".concat(this.tp_start.getValue() == null ? "\"Starts on\"":"\"Ends on\"")
                     .concat("|Make sure you are selecting an start and end time")
                 );
+
+            isInvalid = this.tp_start.getSelectionModel().getSelectedIndex() > this.tp_end.getSelectionModel().getSelectedIndex();
+            if (isInvalid)
+                throw new Exception(
+                        "Invalid value for Start and End time"
+                                .concat("|Make sure you End time is greater than Start time")
+                );
         } catch (Exception e) {
             String[] messages = e.getMessage().split("\\|");
             MessageBox.showWarning(messages[0], messages[1]);
@@ -222,8 +234,22 @@ public class AppointmentFormController extends FormController  {
             this.appointment.setEnd(this.resolveDateAndTime(this.dp_end, (String) this.tp_end.getValue()));
 
             if (this.getIsNew()) {
-                new AppointmentManager().insert(this.appointment);
-                MessageBox.showInformation("\"".concat(this.appointment.getTitle()).concat("\" has been created!"), "It'll take place on ".concat(this.appointment.getStart().getTime().toLocaleString()));
+                AppointmentManager am = new AppointmentManager();
+                if (
+                    am.select(
+                        "start <= '"
+                                .concat(Parser.CalendarToString(this.appointment.getStart()))
+                                .concat("' AND end >= '")
+                                .concat(Parser.CalendarToString(this.appointment.getStart()))
+                                .concat("'")
+                    ).size() > 0
+                ) {
+                    MessageBox.showWarning("Overlapped appointment", "Please select another time");
+                    return;
+                } else {
+                    am.insert(this.appointment);
+                    MessageBox.showInformation("\"".concat(this.appointment.getTitle()).concat("\" has been created!"), "It'll take place on ".concat(this.appointment.getStart().getTime().toLocaleString()));
+                }
             } else {
                 new AppointmentManager().update(this.appointment);
                 MessageBox.showInformation("\"".concat(this.appointment.getTitle()).concat("\" has been updated!"), "It'll take place on ".concat(this.appointment.getStart().getTime().toLocaleString()));
@@ -246,6 +272,7 @@ public class AppointmentFormController extends FormController  {
             lmModal.centerOnScreen();
 
             // Fill TableView with Customer list
+            // This lambda expression give us the ability to re-use the List Picker
             lm.getController().fillData((Callback<TableView<Customer> , Object>) tableView -> {
                 tableView.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("customerName"));
                 tableView.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("createDate"));
@@ -258,6 +285,7 @@ public class AppointmentFormController extends FormController  {
             });
 
             // Make Table View filterable
+            // This lambda expression give us the ability to re-use the List Picker
             lm.getController().setOnSearchAction((Callback<Object[], Object>) controls -> {
                 TableView<Customer> tableView = (TableView<Customer>) controls[0];
                 TextField textField = (TextField) controls[1];
@@ -271,6 +299,7 @@ public class AppointmentFormController extends FormController  {
             });
 
             // Choose a row
+            // This lambda expression give us the ability to re-use the List Picker
             lm.getController().setOnChooseAction((Callback<Object[], Object>) controls -> {
                 TableView<Customer> tableView = (TableView<Customer>) controls[0];
                 Button button = (Button) controls[1];
@@ -304,6 +333,7 @@ public class AppointmentFormController extends FormController  {
             lmModal.centerOnScreen();
 
             // Fill TableView with Customer list
+            // This lambda expression give us the ability to re-use the List Picker
             lm.getController().fillData((Callback<TableView<User> , Object>) tableView -> {
                 tableView.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("userName"));
                 tableView.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("createDate"));
@@ -316,6 +346,7 @@ public class AppointmentFormController extends FormController  {
             });
 
             // Make Table View filterable
+            // This lambda expression give us the ability to re-use the List Picker
             lm.getController().setOnSearchAction((Callback<Object[], Object>) controls -> {
                 TableView<User> tableView = (TableView<User>) controls[0];
                 TextField textField = (TextField) controls[1];
@@ -329,6 +360,7 @@ public class AppointmentFormController extends FormController  {
             });
 
             // Choose a row
+            // This lambda expression give us the ability to re-use the List Picker
             lm.getController().setOnChooseAction((Callback<Object[], Object>) controls -> {
                 TableView<User> tableView = (TableView<User>) controls[0];
                 Button button = (Button) controls[1];
@@ -400,9 +432,9 @@ public class AppointmentFormController extends FormController  {
         this.appointment = (Appointment) record;
         this.populateForm();
         this.isNew = false;
-        this.lb_header.setText("Update Appointment");
 
         try {
+            this.lb_header.setText(Main.t("ui_appointment_form_lb_header_update"));
             this.btn_save.setText(Main.t("ui_appointment_form_btn_update"));
         } catch (Exception e) {
             Main.consoleStack(e);
@@ -410,7 +442,8 @@ public class AppointmentFormController extends FormController  {
     }
 
     public void fillTimes() {
-        for (int i = 7; i <= 19; i++) {
+        // Only show business hours
+        for (int i = 9; i <= 16; i++) {
             boolean isMorning = i < 12;
             int hour = isMorning ? i:(i == 12 ? i:i - 12);
 
