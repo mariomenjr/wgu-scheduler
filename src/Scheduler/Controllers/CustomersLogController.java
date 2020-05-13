@@ -89,6 +89,10 @@ public class CustomersLogController extends BaseController implements ILogContro
             customerFormWindow.setHeight(600);
             customerFormWindow.centerOnScreen();
 
+            apm.getController().setOnClose(n -> {
+                this.fillData();
+                return null;
+            });
         } catch(Exception e) {
             Main.consoleStack(e);
         }
@@ -109,6 +113,11 @@ public class CustomersLogController extends BaseController implements ILogContro
                 customerFormWindow.setWidth(400);
                 customerFormWindow.setHeight(600);
                 customerFormWindow.centerOnScreen();
+
+                cpm.getController().setOnClose(n -> {
+                    this.fillData();
+                    return null;
+                });
             }
         } catch(Exception e) {
             Main.consoleStack(e);

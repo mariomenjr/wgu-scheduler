@@ -55,4 +55,5 @@ public abstract class BaseModal<C> implements IComponent<C> {
     public C getController() {
         return this._controller;
     }
+
 }

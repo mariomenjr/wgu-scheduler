@@ -87,6 +87,10 @@ public class AppointmentsLogController extends BaseController implements ILogCon
             appointmentFormWindow.setHeight(600);
             appointmentFormWindow.centerOnScreen();
 
+            apm.getController().setOnClose(n -> {
+                this.fillData();
+                return null;
+            });
         } catch(Exception e) {
             Main.consoleStack(e);
         }
@@ -107,6 +111,11 @@ public class AppointmentsLogController extends BaseController implements ILogCon
                 appointmentFormWindow.setWidth(400);
                 appointmentFormWindow.setHeight(600);
                 appointmentFormWindow.centerOnScreen();
+
+                apm.getController().setOnClose(n -> {
+                    this.fillData();
+                    return null;
+                });
             }
         } catch(Exception e) {
             Main.consoleStack(e);

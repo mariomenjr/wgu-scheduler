@@ -1,5 +1,6 @@
 package Scheduler.Dao;
 
+import Scheduler.Main;
 import Scheduler.Models.Address;
 import Scheduler.Repository.BaseManager;
 import Scheduler.Utils.DateTime;
@@ -29,9 +30,9 @@ public class AddressManager extends BaseManager<Address> {
                 .concat("'" + instance.getPostalCode() + "',")
                 .concat("'" + instance.getPhone() + "',")
                 .concat("'" + Parser.CalendarToString(createdOn) + "',")
-                .concat("'" + "mariomenjr" + "',")
+                .concat("'" + Main.getUser().getUserName() + "',")
                 .concat("'" + Parser.CalendarToString(updatedOn) + "',")
-                .concat("'" + "mariomenjr" + "'")
+                .concat("'" + Main.getUser().getUserName() + "'")
                 .concat(");");
     }
 
@@ -51,9 +52,9 @@ public class AddressManager extends BaseManager<Address> {
                 .concat("postalCode = '" + instance.getPostalCode() + "',")
                 .concat("phone = '" + instance.getPhone() + "',")
                 .concat("createDate = '" + Parser.CalendarToString(createdOn) + "',")
-                .concat("createdBy = '" + "mariomenjr" + "',")
+                .concat("createdBy = '" + Main.getUser().getUserName() + "',")
                 .concat("lastUpdate = '" + Parser.CalendarToString(updatedOn) + "',")
-                .concat("lastUpdateBy = '" + "mariomenjr" + "'")
+                .concat("lastUpdateBy = '" + Main.getUser().getUserName() + "'")
                 .concat(" WHERE addressId = ")
                 .concat(Integer.toString(instance.getAddressId()));
     }

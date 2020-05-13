@@ -59,12 +59,14 @@ public class LoginController extends BaseController {
         Button eventSource = (Button)actionEvent.getSource();
         if (this.btn_login.equals(eventSource)) {
             try {
-                String where = "userName = '" + this.tf_username.getText() + "' AND password = '" + String.valueOf(this.tf_password.getText().hashCode()) + "'";
+                String where = "userName = '" + this.tf_username.getText() + "' AND password = '" + String.valueOf(this.tf_password.getText()) + "'";
+                
                 ObservableList<User> users = new UserManager().select(where);
 
                 // Login or not
                 if (users.size() == 1)
                 {
+                    Main.setUser(users.get(0));
                     Main.log("Logged in!");
 
                     HubModal hubModal = new HubModal();

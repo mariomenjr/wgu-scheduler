@@ -23,6 +23,9 @@ public class Parser {
 
     // public static DateTime resolveLocalTimeZone() {}
     public static DateTime resolveRefTimeZone(DateTime dateTime) {
+        /*
+        * If I cannot make changes to the Database, how am I going to store the TimeZone the date has been saved?
+        * */
         LocalDateTime ldt = LocalDateTime.ofInstant(dateTime.toInstant(), dateTime.getTimeZone().toZoneId());
         ZonedDateTime zdt = ZonedDateTime.of(ldt, dateTime.getTimeZone().toZoneId());
         ZonedDateTime gmt = zdt.withZoneSameInstant(Main.getRefTimeZone().toZoneId());

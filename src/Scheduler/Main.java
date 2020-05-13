@@ -1,6 +1,7 @@
 package Scheduler;
 
 import Scheduler.Controllers.Modals.LoginModal;
+import Scheduler.Models.User;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -16,6 +17,7 @@ public class Main extends Application {
 
     private static Stage _mainStage;
     private static ResourceBundle _localeBundle;
+    private static User _user;
 
     private static void _loadLocale() throws Exception {
         try {
@@ -31,6 +33,14 @@ public class Main extends Application {
 
         loginScreen.setTitle(Main.t("ui_login_window_title"));
         loginScreen.centerOnScreen();
+    }
+
+    public static User getUser() {
+        return _user;
+    }
+
+    public static void setUser(User _user) {
+        Main._user = _user;
     }
 
     @Override

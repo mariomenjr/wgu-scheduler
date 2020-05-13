@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.util.Callback;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -21,6 +22,7 @@ public class CustomerFormController extends FormController {
     private City city;
     private Country country;
     private boolean isNew = true;
+    private Callback onCloseCustom = (n) -> { return null; };
 
     @FXML public Label lb_header;
     @FXML public Label lb_name;
@@ -55,7 +57,7 @@ public class CustomerFormController extends FormController {
             this.lb_city.setText(Main.t("ui_customer_form_lb_city"));
             this.lb_postal.setText(Main.t("ui_customer_form_lb_postal"));
             this.lb_phone.setText(Main.t("ui_customer_form_lb_phone"));
-            this.lb_country.setText(Main.t("ui_customer_form_lb_country"));
+            this.lb_country.setText(Main.t("ufalsei_customer_form_lb_country"));
 
             this.btn_save.setText(Main.t("ui_customer_form_btn_save"));
             this.btn_cancel.setText(Main.t("ui_customer_form_btn_cancel"));
@@ -67,7 +69,7 @@ public class CustomerFormController extends FormController {
     @Override
     public void initialize() {
         super.initialize();
-        this.customer = new Customer(0, "", 0, false, Calendar.getInstance(), "", Calendar.getInstance(), "");
+        this.customer = new Customer(0, "", 0, true, Calendar.getInstance(), "", Calendar.getInstance(), "");
         this.address = new Address(0, "", "", 0, "", "", Calendar.getInstance(), "", Calendar.getInstance(), "");
         this.city = new City(0, "", 0, Calendar.getInstance(), "", Calendar.getInstance(), "");
         this.country = new Country(0, "", Calendar.getInstance(), "", Calendar.getInstance(), "");
@@ -166,6 +168,11 @@ public class CustomerFormController extends FormController {
         return this.isNew;
     }
 
+    @Override
+    protected void setOnClose(Callback callback) {
+        this.onCloseCustom = callback;
+    }
+
     @Override protected void populateForm() {
         this.tf_name.setText(this.customer.getCustomerName());
         this.tf_address.setText(this.address.getAddress());
@@ -220,6 +227,7 @@ public class CustomerFormController extends FormController {
                 MessageBox.showInformation("\"".concat(this.customer.getCustomerName()).concat("\" has been updated!"), "Created on ".concat(this.customer.getCreateDate().getTime().toLocaleString()));
             }
             this.getStage().close();
+            this.onCloseCustom.call(null);
         } catch (Exception e) {
             MessageBox.showInformation("\"".concat(this.customer.getCustomerName()).concat("\" failed to be created!"), "Due to: ".concat(e.getMessage()));
             Main.consoleStack(e);

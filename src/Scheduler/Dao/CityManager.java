@@ -1,5 +1,6 @@
 package Scheduler.Dao;
 
+import Scheduler.Main;
 import Scheduler.Models.City;
 import Scheduler.Repository.BaseManager;
 import Scheduler.Utils.Parser;
@@ -25,9 +26,9 @@ public class CityManager extends BaseManager<City> {
                 .concat("'" + instance.getCity() + "',")
                 .concat(Integer.toString(instance.getCountryId()) + ",")
                 .concat("'" + Parser.CalendarToString(createdOn) + "',")
-                .concat("'" + "mariomenjr" + "',")
+                .concat("'" + Main.getUser().getUserName() + "',")
                 .concat("'" + Parser.CalendarToString(updatedOn) + "',")
-                .concat("'" + "mariomenjr" + "'")
+                .concat("'" + Main.getUser().getUserName() + "'")
                 .concat(");");
     }
 
@@ -44,9 +45,9 @@ public class CityManager extends BaseManager<City> {
                 .concat("city = '" + instance.getCity() + "',")
                 .concat("countryId = " + Integer.toString(instance.getCountryId()) + ",")
                 .concat("createDate = '" + Parser.CalendarToString(createdOn) + "',")
-                .concat("createdBy = '" + "mariomenjr" + "',")
+                .concat("createdBy = '" + Main.getUser().getUserName() + "',")
                 .concat("lastUpdate = '" + Parser.CalendarToString(updatedOn) + "',")
-                .concat("lastUpdateBy = '" + "mariomenjr" + "'")
+                .concat("lastUpdateBy = '" + Main.getUser().getUserName() + "'")
                 .concat(" WHERE cityId = ")
                 .concat(Integer.toString(instance.getCityId()));
     }

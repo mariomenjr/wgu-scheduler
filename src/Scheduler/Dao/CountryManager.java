@@ -1,5 +1,6 @@
 package Scheduler.Dao;
 
+import Scheduler.Main;
 import Scheduler.Models.City;
 import Scheduler.Models.Country;
 import Scheduler.Repository.BaseManager;
@@ -25,9 +26,9 @@ public class CountryManager extends BaseManager<Country> {
                 .concat("INSERT INTO country VALUES(NULL,")
                 .concat("'" + instance.getCountry() + "',")
                 .concat("'" + Parser.CalendarToString(createdOn) + "',")
-                .concat("'" + "mariomenjr" + "',")
+                .concat("'" + Main.getUser().getUserName() + "',")
                 .concat("'" + Parser.CalendarToString(updatedOn) + "',")
-                .concat("'" + "mariomenjr" + "'")
+                .concat("'" + Main.getUser().getUserName() + "'")
                 .concat(");");
     }
 
@@ -43,9 +44,9 @@ public class CountryManager extends BaseManager<Country> {
                 .concat("UPDATE country SET ")
                 .concat("country = '" + instance.getCountry() + "',")
                 .concat("createDate = '" + Parser.CalendarToString(createdOn) + "',")
-                .concat("createdBy = '" + "mariomenjr" + "',")
+                .concat("createdBy = '" + Main.getUser().getUserName() + "',")
                 .concat("lastUpdate = '" + Parser.CalendarToString(updatedOn) + "',")
-                .concat("lastUpdateBy = '" + "mariomenjr" + "'")
+                .concat("lastUpdateBy = '" + Main.getUser().getUserName() + "'")
                 .concat(" WHERE countryId = ")
                 .concat(Integer.toString(instance.getCountryId()));
     }

@@ -1,5 +1,6 @@
 package Scheduler.Dao;
 
+import Scheduler.Main;
 import Scheduler.Models.Appointment;
 import Scheduler.Models.Customer;
 import Scheduler.Repository.BaseManager;
@@ -28,9 +29,9 @@ public class CustomerManager extends BaseManager<Customer> {
                 .concat(Integer.toString(instance.getAddressId()) + ",")
                 .concat("'" + (instance.isActive() ? "1":"0") + "',")
                 .concat("'" + Parser.CalendarToString(createdOn) + "',")
-                .concat("'" + "mariomenjr" + "',")
+                .concat("'" + Main.getUser().getUserName() + "',")
                 .concat("'" + Parser.CalendarToString(updatedOn) + "',")
-                .concat("'" + "mariomenjr" + "'")
+                .concat("'" + Main.getUser().getUserName() + "'")
                 .concat(");");
     }
 
@@ -48,9 +49,9 @@ public class CustomerManager extends BaseManager<Customer> {
                 .concat("addressId = " + Integer.toString(instance.getAddressId()) + ",")
                 .concat("active = '" + (instance.isActive() ? "1":"0") + "',")
                 .concat("createDate = '" + Parser.CalendarToString(createdOn) + "',")
-                .concat("createdBy = '" + "mariomenjr" + "',")
+                .concat("createdBy = '" + Main.getUser().getUserName() + "',")
                 .concat("lastUpdate = '" + Parser.CalendarToString(updatedOn) + "',")
-                .concat("lastUpdateBy = '" + "mariomenjr" + "'")
+                .concat("lastUpdateBy = '" + Main.getUser().getUserName() + "'")
                 .concat(" WHERE customerId = ")
                 .concat(Integer.toString(instance.getCustomerId()));
     }

@@ -1,5 +1,7 @@
 package Scheduler.Models;
 
+import Scheduler.Utils.DateTime;
+
 import java.util.Calendar;
 
 public class User {
@@ -7,9 +9,9 @@ public class User {
     private String userName;
     private String password;
     private boolean active;
-    private Calendar createDate;
+    private DateTime createDate;
     private String createdBy;
-    private Calendar lastUpdate;
+    private DateTime lastUpdate;
     private String lastUpdateBy;
 
     public User(int userId, String userName, String password, boolean active, Calendar createDate, String createdBy, Calendar lastUpdate, String lastUpdateBy) {
@@ -17,10 +19,14 @@ public class User {
         this.userName = userName;
         this.password = password;
         this.active = active;
-        this.createDate = createDate;
+        this.createDate = new DateTime();
         this.createdBy = createdBy;
-        this.lastUpdate = lastUpdate;
+        this.lastUpdate = new DateTime();
         this.lastUpdateBy = lastUpdateBy;
+
+        // Casting-ish the Calendar() types to DateTime()
+        this.createDate.setTime(createDate.getTime());
+        this.createDate.setTime(lastUpdate.getTime());
     }
 
     public int getUserId() {
@@ -55,11 +61,11 @@ public class User {
         this.active = active;
     }
 
-    public Calendar getCreateDate() {
+    public DateTime getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(Calendar createDate) {
+    public void setCreateDate(DateTime createDate) {
         this.createDate = createDate;
     }
 
@@ -71,11 +77,11 @@ public class User {
         this.createdBy = createdBy;
     }
 
-    public Calendar getLastUpdate() {
+    public DateTime getLastUpdate() {
         return lastUpdate;
     }
 
-    public void setLastUpdate(Calendar lastUpdate) {
+    public void setLastUpdate(DateTime lastUpdate) {
         this.lastUpdate = lastUpdate;
     }
 

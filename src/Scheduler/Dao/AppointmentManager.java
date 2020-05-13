@@ -1,5 +1,6 @@
 package Scheduler.Dao;
 
+import Scheduler.Main;
 import Scheduler.Models.Appointment;
 import Scheduler.Repository.BaseManager;
 import Scheduler.Utils.Parser;
@@ -37,9 +38,9 @@ public class AppointmentManager extends BaseManager<Appointment> {
                 .concat("'" + Parser.CalendarToString(start) + "',")
                 .concat("'" + Parser.CalendarToString(end) + "',")
                 .concat("'" + Parser.CalendarToString(createdOn) + "',")
-                .concat("'" + "mariomenjr" + "',")
+                .concat("'" + Main.getUser().getUserName() + "',")
                 .concat("'" + Parser.CalendarToString(updatedOn) + "',")
-                .concat("'" + "mariomenjr" + "'")
+                .concat("'" + Main.getUser().getUserName() + "'")
                 .concat(");");
     }
 
@@ -68,9 +69,9 @@ public class AppointmentManager extends BaseManager<Appointment> {
                 .concat("start = '" + Parser.CalendarToString(start) + "',")
                 .concat("end = '" + Parser.CalendarToString(end) + "',")
                 .concat("createDate ='" + Parser.CalendarToString(createdOn) + "',")
-                .concat("createdBy = '" + "mariomenjr" + "',")
+                .concat("createdBy = '" + Main.getUser().getUserName() + "',")
                 .concat("lastUpdate = '" + Parser.CalendarToString(updatedOn) + "',")
-                .concat("lastUpdateBy = '" + "mariomenjr" + "'")
+                .concat("lastUpdateBy = '" + Main.getUser().getUserName() + "'")
                 .concat(" WHERE appointmentId = ")
                 .concat(Integer.toString(instance.getAppointmentId()));
     }

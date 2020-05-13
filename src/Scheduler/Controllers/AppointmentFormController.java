@@ -37,6 +37,7 @@ public class AppointmentFormController extends FormController  {
     private Customer selectedCustomer;
     private User selectedUser;
     private boolean isNew = true;
+    private Callback onCloseCustom = (n) -> { return null; };
 
     @FXML
     public Label lb_header;
@@ -165,6 +166,13 @@ public class AppointmentFormController extends FormController  {
                     "Invalid value for \"Title\""
                     .concat("|Make sure you are assigning a title"));
 
+            isInvalid = (this.dp_start.getValue().isAfter( this.dp_end.getValue()));
+            if (isInvalid)
+                throw new Exception(
+                    "Invalid value for Start and End date"
+                            .concat("|Make sure you End time is greater than Start date")
+                );
+
             isInvalid = (this.dp_start.getValue() == null || this.dp_end.getValue() == null);
             if (isInvalid)
                 throw new Exception(
@@ -241,7 +249,8 @@ public class AppointmentFormController extends FormController  {
                                 .concat(Parser.CalendarToString(this.appointment.getStart()))
                                 .concat("' AND end >= '")
                                 .concat(Parser.CalendarToString(this.appointment.getStart()))
-                                .concat("'")
+                                .concat("' AND userId = ")
+                                .concat(Integer.toString(this.appointment.getUserId()))
                     ).size() > 0
                 ) {
                     MessageBox.showWarning("Overlapped appointment", "Please select another time");
@@ -256,6 +265,7 @@ public class AppointmentFormController extends FormController  {
             }
 
             this.getStage().close();
+            this.onCloseCustom.call(null);
         } catch (Exception e) {
             MessageBox.showInformation("\"".concat(this.appointment.getTitle()).concat("\" failed to be created!"), "Due to: ".concat(e.getMessage()));
             Main.consoleStack(e);
@@ -382,6 +392,11 @@ public class AppointmentFormController extends FormController  {
         } catch(Exception e) {
             Main.consoleStack(e);
         }
+    }
+
+    @Override
+    protected void setOnClose(Callback callback) {
+        this.onCloseCustom = callback;
     }
 
     @Override
