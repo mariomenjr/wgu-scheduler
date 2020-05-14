@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -15,14 +16,29 @@
 <children>
    <VBox prefWidth="800.0">
       <children>
+            <HBox alignment="CENTER_LEFT" prefHeight="51.0" prefWidth="770.0" spacing="1.0">
+               <children>
+                  <Button fx:id="btn_types_by_month" mnemonicParsing="false" onAction="#onBtnTypesByMonthClick" prefHeight="26.0" prefWidth="233.0" text="Appointment Types by Month" />
+                  <Button fx:id="btn_schedule_consultant" mnemonicParsing="false" onAction="#onBtnScheduleByConsultant" prefHeight="26.0" prefWidth="187.0" text="Schedule by consultant" />
+                  <Button fx:id="btn_time_per_month" mnemonicParsing="false" onAction="#onBtnTimePerMonth" prefHeight="26.0" prefWidth="146.0" text="Time per Month" />
+                  <HBox alignment="CENTER_RIGHT" prefHeight="51.0" prefWidth="241.0" spacing="1.0">
+                     <children>
+                        <ComboBox fx:id="cb_period_selector" onAction="#onComboBoxChange" prefWidth="125.0" />
+                        <Button fx:id="btn_next" disable="true" mnemonicParsing="false" onAction="#onNextOrPrevClick" text="&lt;" />
+                        <Label fx:id="lbl_current" />
+                        <Button fx:id="btn_prev" disable="true" mnemonicParsing="false" onAction="#onNextOrPrevClick" text="&gt;" />
+                     </children>
+                  </HBox>
+               </children>
+            </HBox>
          <HBox alignment="CENTER" prefHeight="61.0" prefWidth="800.0" spacing="5.0">
             <children>
                <Label fx:id="lb_search" prefHeight="16.0" prefWidth="138.0" text="Search:" HBox.hgrow="ALWAYS" />
                <TextField fx:id="tf_search" onKeyPressed="#onTypeSearch" prefHeight="26.0" prefWidth="473.0" HBox.hgrow="ALWAYS" />
                <Pane prefHeight="61.0" prefWidth="187.0" HBox.hgrow="ALWAYS" />
-               <Button fx:id="btn_add" onAction="#onAddClick" mnemonicParsing="false" prefHeight="26.0" prefWidth="133.0" text="Add" HBox.hgrow="ALWAYS" />
-               <Button fx:id="btn_edit" onAction="#onEditClick" mnemonicParsing="false" prefHeight="26.0" prefWidth="133.0" text="Edit" />
-               <Button fx:id="btn_remove" onAction="#onRemoveClick" mnemonicParsing="false" prefHeight="26.0" prefWidth="152.0" text="Remove" HBox.hgrow="ALWAYS" />
+               <Button fx:id="btn_add" mnemonicParsing="false" onAction="#onAddClick" prefHeight="26.0" prefWidth="133.0" text="Add" HBox.hgrow="ALWAYS" />
+               <Button fx:id="btn_edit" mnemonicParsing="false" onAction="#onEditClick" prefHeight="26.0" prefWidth="133.0" text="Edit" />
+               <Button fx:id="btn_remove" mnemonicParsing="false" onAction="#onRemoveClick" prefHeight="26.0" prefWidth="152.0" text="Remove" HBox.hgrow="ALWAYS" />
             </children>
          </HBox>
          <TableView fx:id="tv_appointments" prefHeight="405.0" prefWidth="800.0">

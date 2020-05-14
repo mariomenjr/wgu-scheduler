@@ -6,8 +6,6 @@ import Scheduler.Repository.BaseManager;
 import Scheduler.Utils.Parser;
 
 import java.sql.ResultSet;
-import java.text.ParseException;
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import static Scheduler.Utils.Parser.StringToCalendar;

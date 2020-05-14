@@ -213,13 +213,13 @@ public class AppointmentFormController extends FormController  {
         String[] split;
 
         split = pickedTime.split(" ");
-        boolean isMorning = split[1] == "AM";
+        boolean isMorning = split[1].equals("AM");
 
         split = split[0].split(":");
         int hour = Integer.parseInt(split[0]);
         int mins = Integer.parseInt(split[1]);
 
-        timeOn = timeOn.withHour(isMorning ? hour + 12:hour).withMinute(mins);
+        timeOn = timeOn.withHour(isMorning ? hour:hour + 12).withMinute(mins);
 
         Calendar calendar = Calendar.getInstance();
         calendar.set(dateOn.getYear(), dateOn.getMonthValue()-1, dateOn.getDayOfMonth(),
