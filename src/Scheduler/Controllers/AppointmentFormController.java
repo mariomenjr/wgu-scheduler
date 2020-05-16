@@ -241,26 +241,26 @@ public class AppointmentFormController extends FormController  {
             this.appointment.setStart(this.resolveDateAndTime(this.dp_start, (String) this.tp_start.getValue()));
             this.appointment.setEnd(this.resolveDateAndTime(this.dp_end, (String) this.tp_end.getValue()));
 
+            AppointmentManager am = new AppointmentManager();
+            if (
+                am.select(
+                    "start <= '"
+                        .concat(Parser.CalendarToString(this.appointment.getStart()))
+                        .concat("' AND end >= '")
+                        .concat(Parser.CalendarToString(this.appointment.getStart()))
+                        .concat("' AND userId = ")
+                        .concat(Integer.toString(this.appointment.getUserId()))
+                ).size() > 0
+            ) {
+                MessageBox.showWarning("Overlapped appointment", "Please select another time");
+                return;
+            }
+
             if (this.getIsNew()) {
-                AppointmentManager am = new AppointmentManager();
-                if (
-                    am.select(
-                        "start <= '"
-                                .concat(Parser.CalendarToString(this.appointment.getStart()))
-                                .concat("' AND end >= '")
-                                .concat(Parser.CalendarToString(this.appointment.getStart()))
-                                .concat("' AND userId = ")
-                                .concat(Integer.toString(this.appointment.getUserId()))
-                    ).size() > 0
-                ) {
-                    MessageBox.showWarning("Overlapped appointment", "Please select another time");
-                    return;
-                } else {
-                    am.insert(this.appointment);
-                    MessageBox.showInformation("\"".concat(this.appointment.getTitle()).concat("\" has been created!"), "It'll take place on ".concat(this.appointment.getStart().getTime().toLocaleString()));
-                }
+                am.insert(this.appointment);
+                MessageBox.showInformation("\"".concat(this.appointment.getTitle()).concat("\" has been created!"), "It'll take place on ".concat(this.appointment.getStart().getTime().toLocaleString()));
             } else {
-                new AppointmentManager().update(this.appointment);
+                am.update(this.appointment);
                 MessageBox.showInformation("\"".concat(this.appointment.getTitle()).concat("\" has been updated!"), "It'll take place on ".concat(this.appointment.getStart().getTime().toLocaleString()));
             }
 

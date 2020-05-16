@@ -25,7 +25,10 @@
                      <children>
                         <ComboBox fx:id="cb_period_selector" onAction="#onComboBoxChange" prefWidth="125.0" />
                         <Button fx:id="btn_next" disable="true" mnemonicParsing="false" onAction="#onNextOrPrevClick" text="&lt;" />
-                        <Label fx:id="lbl_current" />
+                        <Label fx:id="lbl_current">
+                           <padding>
+                              <Insets left="5.0" right="5.0" />
+                           </padding></Label>
                         <Button fx:id="btn_prev" disable="true" mnemonicParsing="false" onAction="#onNextOrPrevClick" text="&gt;" />
                      </children>
                   </HBox>

@@ -125,9 +125,9 @@ public class AppointmentsLogController extends BaseController implements ILogCon
             {
                 this.currentWeek = 1;
                 this.currentYear = this.currentYear + 1;
-            } else if (this.currentMonth == 0)
+            } else if (this.currentWeek == 0)
             {
-                this.currentMonth = 1;
+                this.currentWeek = 1;
                 this.currentYear = this.currentYear - 1;
             }
 

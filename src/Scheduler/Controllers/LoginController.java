@@ -77,7 +77,7 @@ public class LoginController extends BaseController {
 
                     this.getStage().hide();
 
-                    // Main.write(users.get(0).getUserName().concat(" logged in @ ").concat(LocalDateTime.now().toString()));
+                    Main.write(users.get(0).getUserName().concat(" logged in @ ").concat(LocalDateTime.now().toString()));
                 } else
                     MessageBox.showWarning(Main.t("alert_logging_failed_header"), Main.t("alert_logging_failed_message"));
             } catch(Exception e) {
