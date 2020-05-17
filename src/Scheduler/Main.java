@@ -90,7 +90,7 @@ public class Main extends Application {
         return _mainStage;
     }
 
-    public static TimeZone getRefTimeZone() { return TimeZone.getTimeZone("Etc/GMT"); }
+    public static TimeZone getRefTimeZone() { return TimeZone.getTimeZone("UTC"); }
 
     public static void main(String[] args) {
         launch(args);

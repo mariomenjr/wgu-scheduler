@@ -5,37 +5,42 @@ import Scheduler.Main;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 
 public class Parser {
+    // From DB to UI
     public static Calendar StringToCalendar(String str) throws ParseException {
         Calendar calendar = Calendar.getInstance();
-        calendar.setTime(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(str));
+
+        // Before presentation
+        LocalDateTime ldt = LocalDateTime.ofInstant(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(str).toInstant(), ZoneId.systemDefault());
+        ZonedDateTime utc = ldt.atZone(Main.getRefTimeZone().toZoneId());
+        ZonedDateTime zdt = utc.withZoneSameInstant(ZoneId.systemDefault());
+
+        calendar.set(zdt.getYear(), zdt.getMonthValue() - 1, zdt.getDayOfMonth(), zdt.getHour(), zdt.getMinute());
         return calendar;
     }
-
+    // From UI to DB
     public static String CalendarToString(Calendar dt) throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-        return sdf.format(dt.getTime());
+        return sdf.format(resolveRefTimeZoneForDb(dt).getTime());
     }
 
     // public static DateTime resolveLocalTimeZone() {}
-    public static DateTime resolveRefTimeZone(DateTime dateTime) {
+    public static Calendar resolveRefTimeZoneForDb(Calendar dateTime) {
         /*
         * If I cannot make changes to the Database, how am I going to store the TimeZone the date has been saved?
         * */
-        LocalDateTime ldt = LocalDateTime.ofInstant(dateTime.toInstant(), dateTime.getTimeZone().toZoneId());
-        ZonedDateTime zdt = ZonedDateTime.of(ldt, dateTime.getTimeZone().toZoneId());
-        ZonedDateTime gmt = zdt.withZoneSameInstant(Main.getRefTimeZone().toZoneId());
+        LocalDateTime ldt = LocalDateTime.ofInstant(dateTime.toInstant(), ZoneId.systemDefault());
+        ZonedDateTime zdt = ZonedDateTime.of(ldt, ZoneId.systemDefault());
+        ZonedDateTime utc = zdt.withZoneSameInstant(Main.getRefTimeZone().toZoneId());
 
         Calendar c = Calendar.getInstance();
-        c.set(gmt.getYear(), gmt.getMonthValue() - 1, gmt.getDayOfMonth(), gmt.getHour(), gmt.getMinute());
+        c.set(utc.getYear(), utc.getMonthValue() - 1, utc.getDayOfMonth(), utc.getHour(), utc.getMinute());
 
-        DateTime dt = new DateTime();
-        dt.setTime(c.getTime());
-
-        return dt;
+        return c;
     }
 }

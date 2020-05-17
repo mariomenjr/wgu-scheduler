@@ -242,14 +242,18 @@ public class AppointmentFormController extends FormController  {
             this.appointment.setEnd(this.resolveDateAndTime(this.dp_end, (String) this.tp_end.getValue()));
 
             AppointmentManager am = new AppointmentManager();
+            String[] startDate = Parser.CalendarToString(this.appointment.getStart()).split(":");
             if (
                 am.select(
                     "start <= '"
-                        .concat(Parser.CalendarToString(this.appointment.getStart()))
+                        .concat(startDate[0].concat(":").concat(startDate[1]).concat(":59"))
                         .concat("' AND end >= '")
-                        .concat(Parser.CalendarToString(this.appointment.getStart()))
-                        .concat("' AND userId = ")
+                        .concat(startDate[0].concat(":").concat(startDate[1]).concat(":59"))
+                        .concat("' AND (userId = ")
                         .concat(Integer.toString(this.appointment.getUserId()))
+                        .concat(" OR customerId = ")
+                        .concat(Integer.toString(this.appointment.getCustomerId()))
+                        .concat(")")
                 ).size() > 0
             ) {
                 MessageBox.showWarning("Overlapped appointment", "Please select another time");
