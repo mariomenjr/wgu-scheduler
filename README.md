@@ -27,5 +27,4 @@ The system communicates to the database by implementing the DAO pattern.
 
 # Contact
 
-- [@mariomenjr](https://twitter.com/mariomenjr)
-- [@mariomenjr](https://instagram.com/mariomenjr)
+[twitter](https://twitter.com/mariomenjr), [instagram](https://instagram.com/mariomenjr)
